@@ -1,0 +1,22 @@
+@use "sass:color";
+@import "../assets/css/colors";
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* хэдер */
+.layout header {
+  flex-shrink: 0;
+}
+
+/* основной контент */
+.layout .content {
+  flex: 1;
+  display: block;
+
+  padding: 0;
+  background-color: transparent;
+}

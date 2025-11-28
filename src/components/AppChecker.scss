@@ -1,0 +1,91 @@
+@import "../assets/css/colors";
+
+
+$blue: #2B3DA5 !default;
+$gray: #f3f5f8 !default; /* цвет галочки в покое */
+
+
+.checker {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  outline: none;
+}
+
+.checker__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.checker__circle {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid $blue;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+
+.checker__svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+
+.checker__tick {
+  fill: none;
+  stroke: $gray;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke .25s ease, transform .25s ease;
+}
+
+
+.checker.is-checked .checker__circle {
+  background: $blue;
+  border-color: $blue;
+}
+.checker.is-checked .checker__tick {
+  stroke: #fff;
+}
+
+/* одноразовая анимация при включении */
+.checker.just-checked .checker__tick {
+  animation: tick-pop .3s ease-out;
+}
+.checker.just-checked .checker__circle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba($blue, .4);
+  animation: ring .8s ease-out forwards;
+}
+
+
+.checker:focus-visible .checker__circle {
+  box-shadow: 0 0 0 3px rgba($blue, .35);
+}
+
+
+@keyframes tick-pop {
+  0%   { transform: scale(.9); }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ring {
+  0%   { transform: scale(.7); opacity: 1; box-shadow: 0 0 0 0 rgba($blue, .4); }
+  100% { transform: scale(1.8); opacity: 0; box-shadow: 0 0 0 12px rgba($blue, 0); }
+}

@@ -1,0 +1,46 @@
+@import "../assets/css/colors";
+
+.app-input {
+  padding-top: 3px;
+
+  .input {
+    border: 1px solid map-get($colors, 'blue'); 
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    padding: 10px; 
+    border-radius: 5px; 
+    transition: border-color 0.3s, border-width 0.3s; 
+
+    &:focus {
+      border: 2px solid map-get($colors, 'blue'); 
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+    }
+
+    
+    &:hover {
+      border: 2px solid map-get($colors, 'blue'); 
+    }
+  }
+
+  .line {
+    margin-top: 3px;
+    height: 1px;
+    background-color: #B2B5B7;
+
+    .subline {
+      height: inherit;
+      transition: 0.3s ease-in;
+      background-color: map-get($colors, 'blue');
+      width: 0;
+    }
+  }
+
+  &:focus-within {
+    .line {
+      .subline {
+        width: 100%;
+      }
+    }
+  }
+}

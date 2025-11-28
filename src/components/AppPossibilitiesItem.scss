@@ -1,0 +1,59 @@
+
+.poss-item {
+  --radius: 24px;
+  --sec-bg: #f3f6ff;
+
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+
+  
+  padding: 32px 36px;
+
+  border-radius: var(--radius);
+  background: var(--sec-bg);
+
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.05),
+    0 10px 28px rgba(0,0,0,.06);
+
+  .col.left {
+    .list {
+      margin: 0;
+      padding-left: 20px; /* маркеры списков */
+      display: grid;
+      gap: 10px;
+
+      li {
+        line-height: 1.35;
+        font-size: 18px;
+      }
+    }
+
+    .cta { margin-top: 18px; }
+  }
+
+  .col.right {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      display: block;
+      object-fit: contain;
+    }
+  }
+
+  /* Адаптив */
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+
+    .col.right { order: 2; }
+    .col.left  { order: 1; }
+  }
+}

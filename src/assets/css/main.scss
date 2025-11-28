@@ -1,0 +1,22 @@
+/* Подключаем шрифт Roboto со всеми нужными толщинами */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+/* Контейнер сайта */
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Глобальные стили */
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif; /* ← заменено с Manrope на Roboto */
+}
+
+/* Стили для текста */
+p {
+  line-height: 22px;
+}

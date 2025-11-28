@@ -1,0 +1,16 @@
+@use "sass:color";
+@import "../assets/css/colors";
+
+.progressbar {
+  width: 100%;
+  background-color: color.change(map-get($colors, 'blue'), $alpha: 0.2);
+  overflow: hidden;
+
+  .progressbar__progress {
+    background-color: map-get($colors, 'blue');
+    box-shadow: 5px 0 5px 5px #00000030;
+    padding: 2px 4px;
+    color: #FFFFFF;
+    min-width: max-content;
+  }
+}

@@ -1,0 +1,26 @@
+.icon-plate {
+  --size: 48px;
+  --radius: 12px;
+  width: var(--size);
+  height: var(--size);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  color: white; 
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+}
+
+/* цвета плашек (поменять еще потом) */
+.icon-plate--yellow { background: linear-gradient(180deg, #FFD45A 0%, #FFB800 100%); }
+.icon-plate--blue   { background: linear-gradient(180deg, #6CA8FF 0%, #2B6DE8 100%); }
+.icon-plate--red    { background: linear-gradient(180deg, #FF7C7C 0%, #ED1B24 100%); }
+.icon-plate--green  { background: linear-gradient(180deg, #71E497 0%, #27AE60 100%); }
+.icon-plate--pink   { background: linear-gradient(180deg, #FF9FD2 0%, #FF68B6 100%); }
+.icon-plate--orange { background: linear-gradient(180deg, #FFBE6B 0%, #FFA726 100%); }

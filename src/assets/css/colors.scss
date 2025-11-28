@@ -1,0 +1,18 @@
+@use "sass:color";
+@use "sass:math";
+
+$colors: (
+  "blue": #447BE0
+);
+
+@each $name, $color in $colors {
+  .bg-#{$name} { background-color: $color }
+  @for $i from 1 through 9 {
+    .bg-#{$name}-#{$i} { background-color: color.change($color, $alpha: math.div($i, 10) ) }
+  }
+  .text-#{$name} { color: $color; border-color: $color }
+}
+
+.transparent {
+  background-color: transparent;
+}

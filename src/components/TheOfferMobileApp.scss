@@ -1,0 +1,90 @@
+
+.offer-mobile-app {
+  
+  .container { padding-left: 0; padding-right: 0; }
+
+  .mobile-card.glow-card {
+    --radius: 24px;
+    border-radius: var(--radius);
+    background: #eaf1ff;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,.05),
+      0 10px 28px rgba(0,0,0,.06);
+    overflow: visible;
+
+    .glow-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 44px;
+      align-items: center;
+      padding: 34px 40px;
+      border-radius: inherit;
+    }
+  }
+
+  .left {
+    .title {
+      margin: 0 0 22px;
+      font-size: clamp(28px, 3.8vw, 56px);
+      line-height: 1.1;
+      font-weight: 700;
+
+      color: #475569;
+    }
+
+    .lead, .desc {
+      margin: 0 0 18px;
+      font-size: 18px;
+      color: #1e1e1e;
+    }
+
+    .lead { margin-bottom: 14px; }
+
+    .stores {
+      display: flex;
+      gap: 18px;
+
+      .store-btn { display: inline-flex; line-height: 0; }
+      svg { height: 44px; width: auto; }
+    }
+  }
+
+  .right { overflow: visible; justify-self: end; }
+
+  .phone {
+    position: relative;
+    height: clamp(320px, 42vw, 470px);
+    overflow: visible;
+
+    .phones {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .phone__icon { position: absolute; z-index: 2; transform-origin: center; }
+
+    .phone__icon--trophy   { top: 8%;  right: 18%; transform: rotate(15deg); }
+    .phone__icon--medal    { top: 60%; left: -8%;  transform: rotate(-15deg); }
+    .phone__icon--calendar { bottom: 8%; right: 5%;  transform: rotate(15deg); }
+  }
+
+  @media (max-width: 992px) {
+    .mobile-card.glow-card .glow-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 24px;
+    }
+
+    .right { order: 2; justify-self: center; }
+    .left  { order: 1; }
+
+    .phone { height: clamp(260px, 52vw, 420px); }
+  }
+}

@@ -1,0 +1,70 @@
+.map {
+  .columns {
+    margin-top: 50px;
+    display: flex;
+    column-gap: 15px;
+    width: 100%;
+
+    .left,
+    .right {
+      flex: 1;
+
+      .item {
+        width: 100%;
+        display: grid;
+        align-items: center;
+        grid-template-columns: minmax(150px, 250px) 1fr;
+
+        &:not(:last-child) {
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+}
+
+
+.map-popup-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  animation: fadeIn .35s ease;
+}
+
+.map-popup{
+  background: #fff;
+  padding: 22px 28px;
+  border-radius: 14px;
+  box-shadow: 0 10px 50px rgba(0,0,0,.25);
+  font-size: 19px;
+  text-align: center;
+  max-width: 420px;
+  animation: popupZoom .35s ease;
+  line-height: 1.45;
+}
+
+.popup-close{
+  background:none;
+  border:none;
+  font-size:26px;
+  position:absolute;
+  top:10px;
+  right:14px;
+  cursor:pointer;
+  opacity:.75;
+  transition:.25s;
+}
+.popup-close:hover{ opacity:1; }
+
+@keyframes fadeIn{
+  from{opacity:0;} to{opacity:1;}
+}
+@keyframes popupZoom{
+  from{transform:scale(.85);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}

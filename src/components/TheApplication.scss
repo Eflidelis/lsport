@@ -1,0 +1,151 @@
+@use "sass:color";
+@import "../assets/css/colors";
+
+.application {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: map-get($colors, "light-gray");
+
+  &.application--sent {
+    align-items: flex-start;
+    height: auto;
+    padding: 60px 0;
+  }
+
+  .grid {
+    height: inherit;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+
+    .left {
+      max-width: 255px;
+
+      .title {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 20px 0;
+        color: map-get($colors, "dark-blue");
+      }
+
+      .description {
+        font-size: 16px;
+        color: map-get($colors, "gray");
+      }
+    }
+
+    .right {
+      .form {
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+        .field {
+          .label {
+            font-size: 14px;
+            font-weight: 500;
+            color: map-get($colors, "dark-gray");
+          }
+
+          .input {
+            margin-top: 10px;
+            padding: 10px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+
+            &:focus {
+              border-color: map-get($colors, "blue");
+              box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            }
+
+            &:hover {
+              border-color: map-get($colors, "blue");
+            }
+          }
+        }
+
+        .policy {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin: 20px 0;
+        }
+      }
+    }
+  }
+
+
+  .success-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .success-card {
+    max-width: 460px;
+    width: 100%;
+    margin: 0 16px;
+    padding: 32px 40px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 180px; 
+  }
+
+  .success-gif {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    user-select: none;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .success-text {
+    font-size: 22px;
+    font-weight: 600;
+    color: map-get($colors, "dark-blue");
+  }
+
+  
+  .flip-enter-active,
+  .flip-leave-active {
+    transition: 0.4s;
+  }
+  .flip-enter,
+  .flip-leave-to {
+    transform: rotateY(90deg);
+  }
+}
+
+
+#application.application {
+  display: block !important;
+  padding-bottom: 40px;
+}
+
+
+#application.application .grid {
+  align-items: start !important;
+}
+
+
+#application + h2 {
+  display: none;
+}
