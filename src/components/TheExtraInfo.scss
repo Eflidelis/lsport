@@ -1,0 +1,60 @@
+.extra-info {
+  margin-top: 120px;
+  margin-bottom: 120px;
+  text-align: center;
+
+  .extra-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #475569;
+  }
+
+  .extra-subtitle {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    color: #475569;
+    opacity: 0.8;
+  }
+
+  .extra-qr-row {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+  }
+
+  .qr-card {
+    text-align: center;
+
+    p {
+      margin-top: 12px;
+      font-size: 17px;
+      font-weight: 600;
+
+      a {
+        color: #2b6de8;
+        text-decoration: none;
+        font-weight: 700;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .qr-image {
+    width: 200px;
+    height: 200px;
+    image-rendering: pixelated;
+  }
+
+  /* на мобильных один под другим */
+  @media (max-width: 768px) {
+    .extra-qr-row {
+      flex-direction: column;
+      gap: 50px;
+    }
+  }
+}

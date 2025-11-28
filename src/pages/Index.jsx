@@ -11,6 +11,8 @@ import TheApplication from '../components/TheApplication';
 import TheProcess from '../components/TheProcess';
 import TheFooter from '../components/TheFooter';
 
+import TheExtraInfo from '../components/TheExtraInfo';
+
 import './Index.scss';
 
 const Index = () => {
@@ -57,6 +59,9 @@ const Index = () => {
       <h1 className="process-title-main container">Что будет дальше?</h1>
 
       <TheProcess />
+
+      
+      <TheExtraInfo />
 
       <TheFooter />
     </div>
