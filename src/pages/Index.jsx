@@ -13,6 +13,8 @@ import TheFooter from '../components/TheFooter';
 
 import TheExtraInfo from '../components/TheExtraInfo';
 
+import ScrollButtons from '../components/ScrollButtons';  
+
 import './Index.scss';
 
 const Index = () => {
@@ -60,8 +62,12 @@ const Index = () => {
 
       <TheProcess />
 
-      
-      <TheExtraInfo />
+      <div id="extra-info">
+  <TheExtraInfo />
+</div>
+
+      {/* ★ кнопки вверх/вниз */}
+      <ScrollButtons />
 
       <TheFooter />
     </div>

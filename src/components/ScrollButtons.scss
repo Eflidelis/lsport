@@ -1,0 +1,28 @@
+.scroll-buttons {
+  position: fixed;
+  right: 24px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2000;
+}
+
+.scroll-buttons .btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  font-size: 18px;
+  color: #1e293b;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: 0.2s ease;
+}
+
+.scroll-buttons .btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
+}

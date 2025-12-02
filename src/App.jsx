@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
@@ -13,13 +13,38 @@ import TheRegionalStatistics from './components/TheRegionalStatistics';
 import ApplicationsPage from './pages/ApplicationsPage';
 import ArchivedApplicationsPage from './pages/ArchivedApplicationsPage';
 
+import ScrollToTop from "./components/ScrollToTop";
+
+// обработчик ошибок
+import "./api/axiosErrorHandler";
+
+// страницы ошибок
+import Error404 from "./components/errors/Error404";
+import Error500 from "./components/errors/Error500";
+import NetworkError from "./components/errors/NetworkError";
+
 function App() {
+  const location = useLocation();
   console.log('App rendered');
+
+  
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const block = params.get("scroll");
+    if (!block) return;
+
+    setTimeout(() => {
+      const el = document.getElementById(block);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }, 150);
+  }, [location.search]);
+
   return (
     <AuthProvider>
       <DefaultLayout>
-        {/* Навигационное меню */}
+
         <TheNavigation />
+        <ScrollToTop />
 
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -27,11 +52,12 @@ function App() {
           {/* Главная */}
           <Route path="/" element={<Index />} />
 
+          {/* Публичные страницы */}
           <Route path="statistics" element={<StatisticsPage />} />
           <Route path="possibilities" element={<ThePossibilities />} />
           <Route path="regional-statistics" element={<TheRegionalStatistics />} />
 
-          {/* Защищённые роуты */}
+          {/* Закрытые страницы */}
           <Route
             path="applications"
             element={
@@ -40,6 +66,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="applications/archive"
             element={
@@ -48,7 +75,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* страницы ошиок */}
+          <Route path="/error/500" element={<Error500 />} />
+          <Route path="/error/network" element={<NetworkError />} />
+
+          {/* 404 */}
+          <Route path="*" element={<Error404 />} />
         </Routes>
+
       </DefaultLayout>
     </AuthProvider>
   );

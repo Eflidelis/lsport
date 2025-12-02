@@ -14,7 +14,6 @@ const TheNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  /* кнопки вход и рега */
   const attributes = {
     static: {
       btnLogin: {
@@ -34,16 +33,17 @@ const TheNavigation = () => {
   const btnLoginAttributes = attributes.static.btnLogin;
   const btnRegAttributes = attributes.static.btnReg;
 
-  /* прокрутка */
+  
   const scrollTo = (selector) => {
+    const targetId = selector.replace("#", "");
+
     if (window.location.pathname !== "/") {
-      window.location.href = "/";
-      setTimeout(() => {
-        const el = document.querySelector(selector);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 400);
+      
+      navigate(`/?scroll=${targetId}`);
       return;
     }
+
+    
     setTimeout(() => {
       const el = document.querySelector(selector);
       if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -170,7 +170,6 @@ const TheNavigation = () => {
     };
   }, []);
 
-  /* скролл на другие блоки */
   useEffect(() => {
     if (isStaffPage) return;
 
@@ -222,9 +221,19 @@ const TheNavigation = () => {
   return (
     <nav className="navigation">
       <div className="container nav-container">
-        <Link to="/" className="nav-logo" onClick={closeMobile}>
+
+        {/* лого обновляет текущую страницу */}
+        <a
+          href="#"
+          className="nav-logo"
+          onClick={(e) => {
+            e.preventDefault();
+            closeMobile();
+            window.location.reload();
+          }}
+        >
           <img className="logo" src={logo} alt="logo" />
-        </Link>
+        </a>
 
         <div className="glass-nav desktop-only">
           <ul ref={navRef} onMouseLeave={handleLeave}>
@@ -293,7 +302,6 @@ const TheNavigation = () => {
         </button>
       </div>
 
-      {/* мобильное меню */}
       <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
         <div className="mobile-glass">
           <ul>
