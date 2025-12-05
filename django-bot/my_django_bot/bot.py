@@ -70,6 +70,9 @@ async def show_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         print(f"DEBUG: Django response status: {response.status_code}")
         if response.status_code == 200:
             applications = response.json()
+
+            applications = sorted(applications, key=lambda x: x.get('id', 0), reverse=True)
+
             if not applications:
                 await update.message.reply_text("📋 Нет активных заявок.")
                 return
@@ -85,6 +88,7 @@ async def show_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
                         f"Имя: {app.get('name', 'Неизвестно')}\n"
                         f"Телефон: {phone}\n"
                         f"Почта: {email}\n"
+                        f"Организация: {app.get('company', 'Не указана')}\n"
                         f"Notes (клиент): {client_notes[:50]}...\n"
                         f"Staff_notes (сотрудник): {staff_notes[:50]}...\n\n"
                     )

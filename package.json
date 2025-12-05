@@ -22,10 +22,20 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start",                       
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "dev-all": "concurrently \"npm run frontend\" \"npm run node-back\" \"npm run dj\" \"npm run bot\"",
+
+    "frontend": "npm start",
+    "node-back": "cd database-server && node index.js",
+    "dj": "cd django-bot && env\\Scripts\\activate && python manage.py runserver",
+    "bot": "cd django-bot && env\\Scripts\\activate && python my_django_bot/bot.py"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
   },
   "eslintConfig": {
     "extends": [
