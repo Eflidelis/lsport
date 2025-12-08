@@ -1,6 +1,4 @@
-
 .offer-mobile-app {
-  
   .container { padding-left: 0; padding-right: 0; }
 
   .mobile-card.glow-card {
@@ -28,7 +26,6 @@
       font-size: clamp(28px, 3.8vw, 56px);
       line-height: 1.1;
       font-weight: 700;
-
       color: #475569;
     }
 
@@ -43,7 +40,6 @@
     .stores {
       display: flex;
       gap: 18px;
-
       .store-btn { display: inline-flex; line-height: 0; }
       svg { height: 44px; width: auto; }
     }
@@ -75,6 +71,8 @@
     .phone__icon--calendar { bottom: 8%; right: 5%;  transform: rotate(15deg); }
   }
 
+
+  /* --- мобильная адаптация (добавлено) --- */
   @media (max-width: 992px) {
     .mobile-card.glow-card .glow-inner {
       grid-template-columns: 1fr;
@@ -86,5 +84,95 @@
     .left  { order: 1; }
 
     .phone { height: clamp(260px, 52vw, 420px); }
+  }
+
+  @media (max-width: 768px) {
+    .left .title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .left .lead,
+    .left .desc { font-size: 16px; text-align: center; }
+
+    .stores {
+      justify-content: center;
+      svg { height: 40px; }
+    }
+
+    .phone { height: 300px; margin-top: 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .left .title { font-size: 26px; }
+    .stores svg { height: 36px; }
+    .phone { height: 260px; }
+  }
+}
+
+/* Центровка телефонов на мобильных */
+@media (max-width: 992px) {
+  .offer-mobile-app .phone .phones {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .offer-mobile-app .phone .phones {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .offer-mobile-app .phone .phones {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- Выравнивание текста как в форме заявки ---- */
+
+/* планшеты */
+@media (max-width: 992px) {
+  .offer-mobile-app .left {
+    text-align: left;
+  }
+
+  .offer-mobile-app .left .stores {
+    justify-content: flex-start;
+  }
+}
+
+/* мобильные */
+@media (max-width: 768px) {
+  .offer-mobile-app .left {
+    text-align: left !important;
+    width: 100%;
+  }
+
+  .offer-mobile-app .left .lead,
+  .offer-mobile-app .left .desc,
+  .offer-mobile-app .left .title {
+    text-align: left !important;
+  }
+
+  .offer-mobile-app .left .stores {
+    justify-content: flex-start;
+  }
+}
+
+/* очень маленькие экраны */
+@media (max-width: 480px) {
+  .offer-mobile-app .left .title {
+    font-size: 26px;
+  }
+
+  .offer-mobile-app .left .stores svg {
+    height: 36px;
   }
 }

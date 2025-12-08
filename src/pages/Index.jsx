@@ -49,6 +49,8 @@ const Index = () => {
         <TheRegionalStatistics />
       </div>
 
+      <h1 className="mobile-title container">Мобильное приложение</h1>
+
       <div id="offer-mobile-app" className="container offer-mobile-app">
         <TheOfferMobileApp />
       </div>

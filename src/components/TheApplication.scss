@@ -61,14 +61,8 @@
             font-size: 16px;
             transition: border-color 0.3s;
 
-            &:focus {
-              border-color: map-get($colors, "blue");
-              box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            }
-
-            &:hover {
-              border-color: map-get($colors, "blue");
-            }
+            &:focus { border-color: map-get($colors,"blue"); box-shadow:0 0 5px rgba(0,0,0,.2); }
+            &:hover { border-color: map-get($colors,"blue"); }
           }
         }
 
@@ -81,7 +75,6 @@
       }
     }
   }
-
 
   .success-wrapper {
     width: 100%;
@@ -96,15 +89,13 @@
     padding: 32px 40px;
     border-radius: 16px;
     background-color: #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
     text-align: center;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    min-height: 180px; 
+    min-height: 180px;
   }
 
   .success-gif {
@@ -114,38 +105,119 @@
     margin-bottom: 20px;
     user-select: none;
     pointer-events: none;
-    transition: opacity 0.35s ease;
+    transition: opacity .35s ease;
   }
 
   .success-text {
     font-size: 22px;
     font-weight: 600;
-    color: map-get($colors, "dark-blue");
-  }
-
-  
-  .flip-enter-active,
-  .flip-leave-active {
-    transition: 0.4s;
-  }
-  .flip-enter,
-  .flip-leave-to {
-    transform: rotateY(90deg);
+    color: map-get($colors,"dark-blue");
   }
 }
 
+/* ПК и планшет <1024px — в блок уходит в колонку */
+@media (max-width: 1024px) {
+  #application .grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
 
-#application.application {
-  display: block !important;
-  padding-bottom: 40px;
+  #application .left {
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }
 
+/* Мобильные <768px — увеличиваем ширину формы и текста */
+@media (max-width: 768px) {
+  #application {
+    padding: 20px 0;
+  }
 
-#application.application .grid {
-  align-items: start !important;
+  #application .grid {
+    gap: 24px;
+  }
+
+  #application .left .title {
+    font-size: 28px;
+  }
+
+  #application .right .form {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.08);
+  }
+
+  #application .form .input {
+    font-size: 15px;
+  }
+
+  #application .form .policy {
+    font-size: 14px;
+    align-items: flex-start;
+  }
 }
 
+/* Успешная отправка — мобильный */
+@media (max-width: 768px) {
+  .success-card {
+    padding: 24px;
+  }
 
-#application + h2 {
-  display: none;
+  .success-gif {
+    width: 120px;
+    height: 120px;
+  }
+
+  .success-text {
+    font-size: 18px;
+  }
+}
+
+#application.application { display: block !important; padding-bottom:40px; }
+#application.application .grid { align-items:start !important; }
+#application + h2 { display:none; }
+
+/* Выравнивание формы и заголовков на планшетах */
+@media (max-width: 1024px) {
+  #application,
+  #application .left,
+  #application .right,
+  #application .form {
+    text-align: left !important;
+  }
+
+  #application .left {
+    margin: 0; /* больше не центрируем */
+    max-width: 100%;
+  }
+
+  #application .form {
+    margin-left: 0;
+  }
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  #application .grid {
+    justify-items: flex-start; /* элементы внутри не по центру */
+  }
+
+  #application .left,
+  #application .form {
+    text-align: left !important;
+    width: 100%;
+  }
+
+  #application .form .field,
+  #application .form input,
+  #application .form textarea {
+    width: 100%;
+  }
+
+  #application .form {
+    align-items: flex-start; /* поля строятся строго слева */
+  }
 }

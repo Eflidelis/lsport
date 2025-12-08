@@ -1,182 +1,174 @@
+/* ====== ГЛАВНЫЙ НАВИГАЦИОННЫЙ БЛОК ====== */
 
 .glass-nav {
-  --glass-bg: rgba(173, 208, 255, 0.35);
-  --hover-bg: rgba(255, 255, 255, 0.55);
-  --active-bg: rgba(255, 255, 255, 0.85);
-
   width: 100%;
-  margin: 0 0 20px;
+  margin-bottom: 24px;
   padding: 0 12px;
-  background: var(--glass-bg);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow:
-      0 8px 32px rgba(0,0,0,.08),
-      0 4px 14px rgba(0,0,0,.04);
+
+  background: rgba(173,208,255,0.15);
+  border-radius: 14px;
   backdrop-filter: blur(6px);
 
   > ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 14px;
-    height: 50px;
+    gap: 22px;
     list-style: none;
+    height: 48px;
+    position: relative;
     padding: 0;
   }
 
-  /* пункты меню */
   > ul li a {
-    font-weight: 700;
-    font-size: 15px;
-    padding: 8px 16px;
-    border-radius: 12px;  
-    color: #1b3552;
-    text-decoration: none;
-    transition: background .25s, color .25s;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 6px 2px;
+    color: #1e3350;
+    cursor: pointer;
+    transition: color .25s ease;
+
+    /* ❗ СТАРЫЙ UNDERLINE ОТКЛЮЧЕН (чтобы не было двух полосок) */
+    /* 
+    &::after {
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-6px;
+      width:100%; height:3px;
+      background:#2d66ff;
+      border-radius:2px;
+      transform-origin:center;
+      transform:scaleX(0);
+      transition:.45s ease;
+    }
+    &.active::after { transform:scaleX(1); }
+    */
   }
 
-  
+  > ul li a.active,
   > ul li a:hover {
-    background: var(--hover-bg);
-    color: #0d2239;
-  }
-
-  /* выбранный пункт */
-  > ul li a.active {
-    background: var(--active-bg);
-    color: #0b1b30;
-    font-weight: 800;
-  }
-
-  
-  @media(max-width:1200px){
-    > ul{gap:10px;}
-    > ul li a{padding:6px 12px;font-size:14px;}
-  }
-
-  @media(max-width:720px){
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    &::-webkit-scrollbar{display:none;}
-    > ul{justify-content:flex-start;gap:8px;width:max-content;}
-  }
-}
-
-/* убираю синий шарик полностью */
-.glass-nav > ul::after {
-  display: none !important;
-  content: none !important;
-}
-
-
-
-@media (max-width:1100px) and (min-width:769px) {
-  .possibilities .glass-nav > ul {
-    gap: 10px;
-  }
-
-  .possibilities .glass-nav > ul li a {
-    font-size: 14px;
-    padding: 6px 10px;
-  }
-}
-
-@media (max-width:950px) and (min-width:769px) {
-  .possibilities .glass-nav > ul {
-    gap: 6px;
-  }
-
-  .possibilities .glass-nav > ul li a {
-    font-size: 13px;
-    padding: 5px 8px;
-  }
-}
-
-
-
-/* по умолчанию бургер скрыт (на десктопе) */
-.glass-nav__burger {
-  display: none;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-/* три полоски */
-.glass-nav__burger span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: #0d2239;
-  border-radius: 2px;
-  margin: 4px 0;
-  transition: transform .25s, opacity .25s;
-}
-
-/* мобильный вид */
-@media (max-width:768px) {
-
-  .possibilities .glass-nav {
-    display: flex;
-    align-items: flex-start;
-    padding: 10px 16px;
-    overflow: visible; 
-  }
-
-  .possibilities .glass-nav__burger {
-    display: block;
-    flex: 0 0 auto;
-    margin-top: 6px;
-  }
-
-  /* изначально меню скрыто */
-  .possibilities .glass-nav > ul {
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    width: 100%;
-    height: auto;
-    margin-top: 4px;
-    justify-content: flex-start;
-  }
-
-  
-  .possibilities .glass-nav.is-open > ul {
-    display: flex;
-  }
-
-  .possibilities .glass-nav > ul li a {
-    font-size: 14px;
-    padding: 4px 8px;
-  }
-}
-
-
-
-.mobile-current-tab {
-  display:none; /* скрываем на десктопе */
-}
-
-@media(max-width:768px){
-
-  .mobile-current-tab {
-    display:block;
-    flex:1;
-    text-align:center;
+    color:#0c1a33;
     font-weight:700;
-    font-size:15px;
-    color:#0b2745;
-    padding-top:2px;
   }
 
-  /* выравнивание бургер + текст */
-  .glass-nav {
+  > ul::after { opacity:0; }
+}
+
+/* текст вкладки — убран, управляем сами */
+.mobile-current-tab { display:none; }
+
+/* ===== адаптив ===== */
+@media (max-width:1200px){
+  .glass-nav > ul{ gap:14px; }
+  .glass-nav > ul li a{ font-size:15px; }
+}
+@media (max-width:900px){
+  .glass-nav > ul{ gap:10px; }
+  .glass-nav > ul li a{ font-size:14px; }
+}
+
+
+/* ════════════════════════════════════════════
+     📱 *** НОВАЯ МОБИЛЬНАЯ ТОП-НАВИГАЦИЯ *** 
+══════════════════════════════════════════════ */
+
+.glass-nav.desktop { display:flex; }
+.glass-nav.mobile  { display:none; }
+
+/* MOBILE + TABLET */
+@media(max-width:992px){
+
+  .glass-nav.desktop{ display:none !important; }
+
+  .glass-nav.mobile{
     display:flex;
     align-items:center;
-    gap:12px;
+    justify-content:space-between;
+    padding:12px 16px;
+    position:relative;
+    height:52px;
   }
+
+  /* бургер */
+  .poss-burger{
+    font-size:22px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    padding:4px 10px;
+    user-select:none;
+    transition:.25s ease;
+  }
+  .poss-burger:hover{ transform:scale(1.12); }
+
+  /* выбранная вкладка */
+  .poss-current{
+    font-size:15px;
+    font-weight:600;
+    white-space:nowrap;
+    color:#0e2542;
+    margin-left:auto;
+  }
+
+  /* скрываем список */
+  .glass-nav.mobile > ul{ display:none !important; }
+
+  /* DROPDOWN LIST */
+  .poss-dropdown{
+    position:absolute;
+    left:0; right:0; top:52px;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 6px 20px rgba(0,0,0,.18);
+    overflow:hidden;
+    max-height:0;
+    opacity:0;
+    pointer-events:none;
+    transition:max-height .35s ease, opacity .25s ease;
+    z-index:20;
+  }
+
+  .poss-dropdown.open{
+    max-height:460px;
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .poss-dropdown ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .poss-dropdown li a{
+    padding:12px 18px;
+    display:block;
+    font-size:15px;
+    border-bottom:1px solid #edf1ff;
+  }
+
+  .poss-dropdown li a.active{
+    background:#eaf1ff;
+    color:#1b42ff;
+    font-weight:600;
+  }
+}
+
+/* ===== ВЫРАВНИВАНИЕ UNDERLINE ДЛЯ DESKTOP ===== */
+.glass-nav.desktop ul{
+  position:relative;
+  --ux:0px; --uw:0px;
+}
+.glass-nav.desktop ul::before{
+  content:"";
+  position:absolute;
+  left:var(--ux);
+  bottom:0;
+  width:var(--uw);
+  height:3px;
+  background:#2d66ff;
+  border-radius:2px;
+  transition:.35s ease;
 }

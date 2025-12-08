@@ -1,47 +1,47 @@
+/* ===== единый вид всех заголовков сайта ===== */
 
-.possibilities {
-  margin-top: 72px;
-}
-
-.offer-to-find-school {
-  margin-top: 72px;
-}
-
-.regional-statistics {
-  margin-top: 72px;
-}
-
-.offer-mobile-app {
-  margin-top: 144px;
-}
-
-.application {
-  margin-top: 144px;
-}
-
-.container h1 {
-  color: #475569;
-}
-
-.container h2,
-.container h3 {
-  color: #475569;
-}
-
-.partners-title {
-  margin-top: 64px;
-  margin-bottom: 32px;
+.container h1,
+.partners-title,
+.mobile-title,
+.process-title-main {
   font-size: 34px;
   font-weight: 700;
-  text-align: left;
   color: #475569;
+  text-align: left;
+
+  margin-top: 60px;
+  margin-bottom: 32px;
 }
 
+/* ===== отступы между блоками ===== */
+
+.possibilities,
+.offer-to-find-school,
+.regional-statistics,
+.offer-mobile-app,
+.application {
+  margin-top: 72px;
+}
+
+/* Блок "Что будет дальше?" — финальный, оставляем снизу больше воздуха */
 .process-title-main {
-  margin-top: 120px;
+  margin-top: 100px;
   margin-bottom: 40px;
-  font-size: 32px;
-  font-weight: 700;
-  color: #475569;
-  text-align: left;
+}
+
+/* ===== адаптив ===== */
+
+@media (max-width: 768px) {
+  .container h1,
+  .partners-title,
+  .mobile-title,
+  .process-title-main {
+    font-size: 28px;
+    margin-top: 40px;
+    margin-bottom: 24px;
+  }
+
+  .application {
+    margin-top: 90px;
+  }
 }

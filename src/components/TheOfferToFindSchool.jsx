@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./TheOfferToFindSchool.scss";
+import useMediaQuery from "../hooks/useMediaQuery"; // Хук теперь существует 🎉
 
 const EMBLEM_IMAGES = [
   require("../assets/images/emblems/emblem1.png"),
@@ -26,19 +27,15 @@ const BASE_LARGE = 170;
 const BASE_MEDIUM = 140;
 const BASE_SMALL = 110;
 
-// Слоты (ряды/места)
 const SLOTS = [
-  // ряд 1
   { top: "10%", left: "10%", size: "large", emblems: [1, 3] },
   { top: "8%", left: "45%", size: "medium", emblems: [0, 6] },
   { top: "14%", left: "72%", size: "small", emblems: [2, 5] },
 
-  // ряд 2
   { top: "52%", left: "16%", size: "medium", emblems: [8, 14] },
   { top: "42%", left: "49%", size: "small", emblems: [7, 9] },
   { top: "45%", left: "78%", size: "large", emblems: [4, 10] },
 
-  // ряд 3
   { top: "74%", left: "14%", size: "small", emblems: [12, 15] },
   { top: "60%", left: "36%", size: "large", emblems: [11, 13] },
   { top: "80%", left: "62%", size: "medium", emblems: [16, 17] },
@@ -57,29 +54,22 @@ const getWidthForEmblem = (slotSize, emblemIndexZeroBased) => {
   const num = emblemIndexZeroBased + 1;
 
   if (num === 4 || num === 12 || num === 14) width *= 1.1;
-
   if (num === 5) width *= 0.9;
-
   if (num !== 5 && num !== 11) width *= 1.1;
-
   if (EXTRA_BIG.includes(num)) width *= 1.1;
-
   if (num === 4) width *= 1.2;
-
   if (num === 3) width *= 1.2;
-
   if (num === 8 || num === 18) width *= 1.1;
-
   if (num === 14 || num === 16) width *= 1.2;
-
   if (num === 10) width *= 1.1;
 
   return width;
 };
 
 const TheOfferToFindSchool = () => {
-  // состояние слотов
-  const [slotsState, setSlotsState] = useState(() =>
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const [slotsState, setSlotsState] = useState(
     SLOTS.map((_, idx) => ({
       slotIndex: idx,
       visibleIndex: 0,
@@ -89,32 +79,27 @@ const TheOfferToFindSchool = () => {
   );
 
   const [allLoaded, setAllLoaded] = useState(false);
-
   const nextSlotRef = useRef(0);
 
   useEffect(() => {
-    let loadedCount = 0;
-    const total = EMBLEM_IMAGES.length;
-
+    let loaded = 0;
     EMBLEM_IMAGES.forEach((src) => {
       const img = new Image();
       img.src = src;
       img.onload = img.onerror = () => {
-        loadedCount += 1;
-        if (loadedCount === total) {
-          setAllLoaded(true);
-        }
+        loaded++;
+        if (loaded === EMBLEM_IMAGES.length) setAllLoaded(true);
       };
     });
   }, []);
 
-  // анимация смены эмблем
   useEffect(() => {
-    let fadeTimeoutId;
+    if (isMobile) return; // ❗ На мобильных НЕ запускаем анимацию
 
+    let fadeTimeout;
     const intervalId = setInterval(() => {
       const slotToChange = nextSlotRef.current;
-      nextSlotRef.current = (nextSlotRef.current + 1) % SLOTS.length;
+      nextSlotRef.current = (slotToChange + 1) % SLOTS.length;
 
       setSlotsState((prev) => {
         const next = [...prev];
@@ -122,63 +107,66 @@ const TheOfferToFindSchool = () => {
         return next;
       });
 
-      fadeTimeoutId = setTimeout(() => {
+      fadeTimeout = setTimeout(() => {
         setSlotsState((prev) => {
-          const updated = [...prev];
-          const current = updated[slotToChange];
+          const next = [...prev];
+          const current = next[slotToChange];
+          const slot = SLOTS[current.slotIndex];
 
-          const slotData = SLOTS[current.slotIndex];
-          const total = slotData.emblems.length;
-          const nextVisibleIndex = (current.visibleIndex + 1) % total;
-
-          updated[slotToChange] = {
+          next[slotToChange] = {
             ...current,
-            visibleIndex: nextVisibleIndex,
+            visibleIndex: (current.visibleIndex + 1) % slot.emblems.length,
             isVisible: true,
             version: current.version + 1,
           };
-
-          return updated;
+          return next;
         });
       }, 400);
     }, 1000);
 
     return () => {
       clearInterval(intervalId);
-      if (fadeTimeoutId) clearTimeout(fadeTimeoutId);
+      fadeTimeout && clearTimeout(fadeTimeout);
     };
-  }, []);
+  }, [isMobile]);
 
+  // 📱 Мобильная версия — просто сетка 18 эмблем
+  if (isMobile) {
+    return (
+      <section className="mobile-grid-emblems">
+        {EMBLEM_IMAGES.map((src, i) => (
+          <img key={i} src={src} className="mobile-emblem" alt={`Эмблема ${i + 1}`} />
+        ))}
+      </section>
+    );
+  }
+
+  // 💻 Десктоп — анимация (как у тебя было)
   return (
-    <section
-      className="edge-card edge-card--collage"
-      aria-label="Эмблемы спортивных федераций"
-    >
+    <section className="edge-card edge-card--collage">
       <div className="edge-card__inner-collage">
         <div className="edge-card__inner-collage-content">
           {allLoaded &&
-            slotsState.map((slotState) => {
-              const slot = SLOTS[slotState.slotIndex];
-              const emblemIndex = slot.emblems[slotState.visibleIndex];
-              const src = EMBLEM_IMAGES[emblemIndex];
-              const width = getWidthForEmblem(slot.size, emblemIndex);
+            slotsState.map((slot) => {
+              const emblem = SLOTS[slot.slotIndex].emblems[slot.visibleIndex];
+              const src = EMBLEM_IMAGES[emblem];
+              const width = getWidthForEmblem(SLOTS[slot.slotIndex].size, emblem);
 
               return (
                 <div
-                  key={`${slotState.slotIndex}-${slotState.version}`}
+                  key={`${slot.slotIndex}-${slot.version}`}
                   className="edge-card__slot"
                   style={{
-                    top: slot.top,
-                    left: slot.left,
+                    top: SLOTS[slot.slotIndex].top,
+                    left: SLOTS[slot.slotIndex].left,
                     width: `${width}px`,
-                    zIndex: 10 + slotState.slotIndex,
                   }}
                 >
                   <img
                     src={src}
                     className="edge-card__image"
-                    alt={`Эмблема федерации ${emblemIndex + 1}`}
-                    style={{ opacity: slotState.isVisible ? 1 : 0 }}
+                    style={{ opacity: slot.isVisible ? 1 : 0 }}
+                    alt=""
                   />
                 </div>
               );

@@ -1,62 +1,154 @@
 .possibilities {
   margin-top:20px;
 
-  .container{
-    padding-left:0!important;
-    padding-right:0!important;
-  }
-
   .poss-slider{
     display:flex;
     flex-direction:column;
     align-items:stretch;
   }
 
+  /* ---------------- DESKTOP VIEW ---------------- */
   .glass-nav{
     width:100%;
-    max-width:100%;
-    margin:0 0 20px;
-    border-radius:16px;
+    margin-bottom:16px;
+    border-radius:14px;
 
     > ul{
-      padding-inline:12px;
+      width: 100%;                       /* растягиваем меню */
+      padding: 0 !important;             /* убираем внутренние поля */
+      justify-content: center !important;/* центрируем */
+      gap:18px;                          /* комфортный дефолтный отступ */
+      height:46px;
+      display:flex;
+      align-items:center;
+    }
+
+    > ul li a{
+      font-size:15px;
+      font-weight:500;
+      padding:6px 2px;
+
+      &::after{
+        bottom:-4px;
+        height:2px;
+      }
+    }
+  }
+
+
+  /* -------------- 📱 MOBILE + TABLET ---------------- */
+  @media(max-width:992px){
+
+    .glass-nav{
+      display:flex;
+      align-items:center;
       justify-content:space-between;
-      gap:2px;
+      padding:10px 14px;
+      position:relative;
+      height:52px;
+      overflow:visible;
     }
-  }
 
-  .poss-view{margin-top:0;}
-
-  
-  @media(max-width:768px){
+    /* скрываем стандартный список */
     .glass-nav > ul{
-      overflow-x:auto;
-      scrollbar-width:none;
-      &::-webkit-scrollbar{display:none;}
+      display:none;
+    }
+
+    /* текущий активный пункт слева */
+    .poss-current-tab{
+      font-size:16px;
+      font-weight:600;
+      color:#0e2542;
+      white-space:nowrap;
+    }
+
+    /* справа две кнопки */
+    .poss-controls{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      font-size:14px;
+      font-weight:600;
+      color:#d22323;
+    }
+
+    /* бургер */
+    .poss-burger{
+      padding:6px 10px;
+      border-radius:8px;
+      background:rgba(255,255,255,.55);
+      border:1px solid rgba(0,0,0,.2);
+      font-size:14px;
+      cursor:pointer;
+    }
+
+    /* выпадающее меню */
+    .poss-dropdown{
+      position:absolute;
+      top:58px;
+      right:14px;
+      background:white;
+      box-shadow:0 8px 22px rgba(0,0,0,.15);
+      border-radius:10px;
+      overflow:hidden;
+      display:none;
+      z-index:4;
+
+      ul{
+        list-style:none;
+        display:flex;
+        flex-direction:column;
+      }
+
+      li a{
+        padding:10px 16px;
+        font-weight:500;
+        white-space:nowrap;
+        display:block;
+        border-bottom:1px solid #eee;
+
+        &.active{
+          background:#edf3ff;
+          color:#1d39ff;
+        }
+      }
+    }
+
+    /* открытие меню */
+    .poss-dropdown.open{
+      display:block;
     }
   }
 }
 
-/* текст внутри карточек */
-.possibilities .poss-view ul li{
-  font-size:20px;
-  line-height:1.45;
-  color:#1e293b;
+
+
+/* ───────── АДАПТИВНОЕ ЦЕНТРИРОВАНИЕ меню ───────── */
+
+/* десктоп — красиво, широко */
+.possibilities .glass-nav > ul {
+  width:100%;
+  justify-content:center !important;
+  gap:18px;             /* основной комфортный */
 }
 
-.possibilities{ margin-top:20px; }
-.possibilities .poss-view ul li{
-  font-size:20px;
-  line-height:1.45;
-  color:#1e293b;
+/* экран слегка меньше */
+@media(max-width:1400px){
+  .possibilities .glass-nav > ul { gap:16px; }
 }
 
-/* планшеты */
+/* ноутбуки 1280 */
+@media(max-width:1280px){
+  .possibilities .glass-nav > ul { gap:14px; }
+}
+
+/* ближе к 1100 — чтобы влезало всегда */
 @media(max-width:1100px){
-  .poss-view ul li{ font-size:19px; }
+  .possibilities .glass-nav > ul { gap:12px; }
+  .possibilities .glass-nav > ul li a { font-size:14px; } /* немного сжатый типографический вариант */
 }
 
-/* мобильные */
-@media(max-width:768px){
-  .poss-view ul li{ font-size:17px; }
+/* 1024 и ниже всё ещё десктоп, но компактнее */
+@media(max-width:1024px){
+  .possibilities .glass-nav > ul { gap:10px; }
 }

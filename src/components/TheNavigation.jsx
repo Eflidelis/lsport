@@ -14,6 +14,8 @@ const TheNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token"); // ★ теперь логика знает — сотрудник или нет
+
   const attributes = {
     static: {
       btnLogin: {
@@ -33,17 +35,14 @@ const TheNavigation = () => {
   const btnLoginAttributes = attributes.static.btnLogin;
   const btnRegAttributes = attributes.static.btnReg;
 
-  
   const scrollTo = (selector) => {
     const targetId = selector.replace("#", "");
 
     if (window.location.pathname !== "/") {
-      
       navigate(`/?scroll=${targetId}`);
       return;
     }
 
-    
     setTimeout(() => {
       const el = document.querySelector(selector);
       if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -58,7 +57,14 @@ const TheNavigation = () => {
 
   const isOnApps = location.pathname === "/applications";
   const isOnArchive = location.pathname === "/applications/archive";
-  const isStaffPage = isOnApps || isOnArchive;
+  const isOnStats = location.pathname === "/statistics";
+
+  /* ================================
+      ★★ главное изменение ★★
+      меню сотрудников ТОЛЬКО если есть токен
+      иначе меню как на Главной
+  =================================*/
+  const isStaffPage = token && (isOnApps || isOnArchive || isOnStats); // ★ ключевой фикс
 
   let navItems = [
     { key: "home", label: "Главная", onClick: goHome },
@@ -71,104 +77,70 @@ const TheNavigation = () => {
   if (isStaffPage) {
     navItems = [
       { key: "home", label: "Главная", onClick: goHome },
-      !isOnApps ? { key: "active", label: "Активные заявки", to: "/applications" } : null,
-      !isOnArchive ? { key: "archive", label: "Архив заявок", to: "/applications/archive" } : null,
+      { key: "apps", label: "Активные заявки", to: "/applications" },
+      { key: "archive", label: "Архив заявок", to: "/applications/archive" },
       { key: "statpage", label: "Статистика", to: "/statistics" },
-    ].filter(Boolean);
+    ];
   }
 
   const navRef = useRef(null);
-  const rafRef = useRef(null);
-  const mountedRef = useRef(false);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [underlineReady, setUnderlineReady] = useState(false);
 
-  const setActiveSafe = useCallback((i) => setActiveIdx(i), []);
+  const updateUnderline = useCallback((i) => {
+    const navEl = navRef.current;
+    if (!navEl) return;
 
-  const getCurrentX = () => {
-    const nav = navRef.current;
-    if (!nav) return 0;
-    const val = parseFloat(nav.style.getPropertyValue("--translate-x"));
-    return Number.isFinite(val) ? val : 0;
-  };
-
-  const getCenterX = (el) => {
-    const nav = navRef.current;
-    if (!nav || !el) return 0;
-
-    const rectNav = nav.getBoundingClientRect();
-    const rectEl = el.getBoundingClientRect();
-    return rectEl.left + rectEl.width / 2 - rectNav.left - 6;
-  };
-
-  const stopRAF = () => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = null;
-  };
-
-  const animateTo = (to) => {
-    const nav = navRef.current;
-    if (!nav) return;
-
-    stopRAF();
-    const start = performance.now();
-    const from = getCurrentX();
-
-    const step = (now) => {
-      if (!mountedRef.current) return;
-
-      const p = Math.min((now - start) / 460, 1);
-      const e = 1 - Math.pow(1 - p, 3);
-
-      const x = from + (to - from) * e;
-      const y = (-28 + 6) * (4 * e * (1 - e));
-      const r = 140 * Math.sin(p * Math.PI);
-
-      nav.style.setProperty("--translate-x", `${x}px`);
-      nav.style.setProperty("--translate-y", `${y}px`);
-      nav.style.setProperty("--rotate-x", `${r}deg`);
-
-      if (p < 1) {
-        rafRef.current = requestAnimationFrame(step);
-      } else {
-        nav.style.setProperty("--translate-y", "0px");
-        nav.style.setProperty("--rotate-x", "0deg");
-        stopRAF();
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(step);
-  };
-
-  const moveToItem = (i) => {
-    const nav = navRef.current;
-    if (!nav) return;
-
-    const links = nav.querySelectorAll("li > a, li > .as-link");
+    const links = navEl.querySelectorAll("li > a, li > .as-link");
     if (!links || !links[i]) return;
 
-    animateTo(getCenterX(links[i]));
-    nav.classList.add("show-indicator");
-  };
+    const el = links[i];
+    const rect = el.getBoundingClientRect();
+    const parent = navEl.getBoundingClientRect();
 
-  const handleEnter = (i) => moveToItem(i);
-  const handleLeave = () => moveToItem(activeIdx);
+    const x = rect.left - parent.left;
+    const w = rect.width;
+
+    navEl.style.setProperty("--ux", `${x}px`);
+    navEl.style.setProperty("--uw", `${w}px`);
+  }, []);
+
+  const setActiveSafe = useCallback(
+    (i) => {
+      setActiveIdx(i);
+      updateUnderline(i);
+    },
+    [updateUnderline]
+  );
 
   const handleClick = (i, action) => {
     setActiveSafe(i);
-    moveToItem(i);
     if (action) action();
   };
 
   useLayoutEffect(() => {
-    mountedRef.current = true;
-    const id = requestAnimationFrame(() => moveToItem(0));
+    let index = 0;
+    if (isStaffPage) {
+      if (isOnApps) index = 1;
+      else if (isOnArchive) index = 2;
+      else if (isOnStats) index = 3;
+    }
 
-    return () => {
-      mountedRef.current = false;
-      cancelAnimationFrame(id);
-      stopRAF();
+    const run = () => {
+      updateUnderline(index);
+      setUnderlineReady(true);
     };
-  }, []);
+
+    updateUnderline(index);
+    requestAnimationFrame(run);
+    const t = setTimeout(run, 200);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(run).catch(() => {});
+    }
+
+    return () => clearTimeout(t);
+  }, [isStaffPage, isOnApps, isOnArchive, isOnStats, updateUnderline]);
 
   useEffect(() => {
     if (isStaffPage) return;
@@ -202,15 +174,23 @@ const TheNavigation = () => {
       });
 
       if (closestIdx !== activeIdx) {
-        setActiveSafe(closestIdx);
-        moveToItem(closestIdx);
+        setActiveIdx(closestIdx);
+        updateUnderline(closestIdx);
       }
     };
 
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isStaffPage, activeIdx, setActiveSafe]);
+  }, [isStaffPage, activeIdx, updateUnderline]);
+
+  useEffect(() => {
+    if (!isStaffPage) return;
+
+    if (isOnApps) setActiveSafe(1);
+    else if (isOnArchive) setActiveSafe(2);
+    else if (isOnStats) setActiveSafe(3);
+  }, [isStaffPage, isOnApps, isOnArchive, isOnStats, setActiveSafe]);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const toggleMobile = () => setMobileOpen((s) => !s);
@@ -219,106 +199,60 @@ const TheNavigation = () => {
   useEffect(() => closeMobile(), [location.pathname]);
 
   return (
-    <nav className="navigation">
+    <nav className={`navigation ${isStaffPage ? "navigation--staff" : ""}`}>
       <div className="container nav-container">
 
-        {/* лого обновляет текущую страницу */}
-        <a
-          href="#"
-          className="nav-logo"
-          onClick={(e) => {
-            e.preventDefault();
-            closeMobile();
-            window.location.reload();
-          }}
-        >
-          <img className="logo" src={logo} alt="logo" />
+        <a href="#" className="nav-logo"
+          onClick={(e) => { e.preventDefault(); closeMobile(); window.location.reload(); }}>
+          <img className="logo" src={logo} alt="logo"/>
         </a>
 
-        <div className="glass-nav desktop-only">
-          <ul ref={navRef} onMouseLeave={handleLeave}>
-            {navItems.map((it, i) => {
-              const isActive = i === activeIdx;
-
-              if (it.to) {
-                return (
-                  <li key={it.key}>
-                    <Link
-                      to={it.to}
-                      className={isActive ? "active as-link" : "as-link"}
-                      onMouseEnter={() => handleEnter(i)}
-                      onClick={() => handleClick(i)}
-                    >
-                      {it.label}
-                    </Link>
-                  </li>
-                );
-              }
-
-              return (
-                <li key={it.key}>
-                  <a
-                    className={isActive ? "active" : ""}
-                    href="#"
-                    onMouseEnter={() => handleEnter(i)}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleClick(i, it.onClick);
-                    }}
-                  >
-                    {it.label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <div className="nav-actions desktop-only">
-          <AppBtn
-            className="navigation__btn"
-            text="Регистрация"
-            {...btnRegAttributes}
-            onClick={() => (window.location.href = "https://lsport.net/Person/Register")}
-          />
-          <AppBtn
-            className="navigation__btn"
-            text="Вход"
-            {...btnLoginAttributes}
-            onClick={() =>
-              (window.location.href = "https://lsport.net/Home/Login?blank=true")
-            }
-          />
-        </div>
-
-        <button
-          className={`burger mobile-only ${mobileOpen ? "is-open" : ""}`}
-          aria-label="Открыть меню"
-          onClick={toggleMobile}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </div>
-
-      <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
-        <div className="mobile-glass">
-          <ul>
-            {navItems.map((it) => (
+        {/*========= DESKTOP MENU =========*/}
+        <div className="header-nav desktop-only">
+          <ul ref={navRef} className={underlineReady ? "nav-underline-ready" : ""}>
+            {navItems.map((it,i)=>(
               <li key={it.key}>
-                {it.to ? (
-                  <Link to={it.to} onClick={closeMobile}>
+                { it.to ? (
+                  <Link to={it.to} className={i===activeIdx?"active as-link":"as-link"} onClick={() => handleClick(i)}>
                     {it.label}
                   </Link>
                 ) : (
-                  <button
-                    className="as-button"
-                    onClick={() => {
-                      closeMobile();
-                      it.onClick();
-                    }}
-                  >
+                  <a className={i===activeIdx?"active":""} href="#"
+                     onClick={(e)=>{e.preventDefault(); handleClick(i,it.onClick);}}>
+                    {it.label}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/*========= DESKTOP AUTH =========*/}
+        <div className="nav-actions desktop-only">
+          <AppBtn text="Регистрация" {...btnRegAttributes}
+            onClick={()=>window.location.href="https://lsport.net/Person/Register"}/>
+          <AppBtn text="Вход" {...btnLoginAttributes}
+            onClick={()=>window.location.href="https://lsport.net/Home/Login?blank=true"}/>
+        </div>
+
+        {/*========= BURGER =========*/}
+        <div className="burger-wrap mobile-only" onClick={toggleMobile}>
+          <button className={`burger ${mobileOpen?"is-open":""}`}><span/><span/><span/></button>
+          <span className="burger-label">Меню</span>
+        </div>
+      </div>
+
+      {/*========= MOBILE MENU =========*/}
+      <div className={`mobile-menu ${mobileOpen?"open":""}`}>
+        <div className="mobile-glass">
+          <ul>
+            {navItems.map((it)=>(
+              <li key={it.key}>
+                {it.to ? (
+                  <Link to={it.to} onClick={closeMobile}>{it.label}</Link>
+                ) : (
+                  <button className="as-button"
+                    onClick={()=>{closeMobile(); it.onClick();}}>
                     {it.label}
                   </button>
                 )}
@@ -327,25 +261,10 @@ const TheNavigation = () => {
           </ul>
 
           <div className="mobile-actions">
-            <AppBtn
-              className="navigation__btn"
-              text="Регистрация"
-              {...btnRegAttributes}
-              onClick={() => {
-                closeMobile();
-                window.location.href = "https://lsport.net/Person/Register";
-              }}
-            />
-            <AppBtn
-              className="navigation__btn"
-              text="Вход"
-              {...btnLoginAttributes}
-              onClick={() => {
-                closeMobile();
-                window.location.href =
-                  "https://lsport.net/Home/Login?blank=true";
-              }}
-            />
+            <AppBtn text="Регистрация" {...btnRegAttributes}
+              onClick={()=>{closeMobile(); window.location.href="https://lsport.net/Person/Register"}}/>
+            <AppBtn text="Вход" {...btnLoginAttributes}
+              onClick={()=>{closeMobile(); window.location.href="https://lsport.net/Home/Login?blank=true"}}/>
           </div>
         </div>
       </div>

@@ -232,3 +232,32 @@
     }
   }
 }
+
+/* ═══════════════════════════════════════
+   РЕЖИМ ДЛЯ СТРАНИЦ ЗАЯВОК (без линии)
+   .navigation--staff навешивается в JSX
+═══════════════════════════════════════ */
+
+.navigation--staff .header-nav li a,
+.navigation--staff .header-nav li .as-link {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+/* убираем синюю линию только на служебных страницах */
+.navigation--staff .header-nav li a::after,
+.navigation--staff .header-nav li .as-link::after {
+  display: none !important;
+}
+
+/* красивый белый hover-прямоугольник */
+.navigation--staff .header-nav li a:hover,
+.navigation--staff .header-nav li .as-link:hover {
+  background: rgba(255,255,255,0.9);
+  color: #0a1a33 !important;
+  box-shadow: 0 0 14px rgba(255,255,255,0.55);
+}
+
+
