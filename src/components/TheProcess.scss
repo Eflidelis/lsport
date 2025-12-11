@@ -1,70 +1,134 @@
-
-.process {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+.process{
+  width:min(1400px,92%);
+  margin:70px auto 120px;
+  position:relative;
+  padding-right:130px; /* место справа под линию и маркеры */
 }
 
-/* одна строка */
-.process-item {
-  display: grid;
-  grid-template-columns: 1fr 160px;
-  align-items: center;
-  gap: 26px;
-  padding: 20px 0;
+/* =================== LINE =================== */
+.timeline-line{
+  position:absolute;
+  top:0;
+  right:90px;              /* X-координата линии */
+  width:3px;
+  background:#6785c6;
+  height:0;
+  border-radius:4px;
+  transition:height 2.5s ease;
 }
 
-/* текстовый блок */
-.process-item .text {
-  background: #ffffff;
-  padding: 22px 28px;
-  border-radius: 14px;
-  font-size: 18px;
-  line-height: 1.45;
+/* =================== ITEM =================== */
+
+.process-item{
+  display:grid;
+  grid-template-columns:1fr 160px;
+  align-items:center;
+  padding:38px 0;
+  position:relative;
+}
+
+.process-item.reverse{
+  grid-template-columns:160px 1fr;
+}
+.process-item.reverse .text{order:2;}
+.process-item.reverse .img-wrap{justify-content:flex-start;}
+
+.text{
+  background:#e9f0f7;
+  padding:24px 30px;
+  border-radius:14px;
+  font-size:18px;
+  line-height:1.45;
   color:#1e293b;
+  box-shadow:0 4px 16px rgba(0,0,0,.05);
 }
 
-.process-item .img-wrap {
+.img-wrap{
   display:flex;
   justify-content:flex-end;
 }
-
-.process-item img {
-  width:140px;
-  height:auto;
-  object-fit:contain;
+.img-wrap img{
+  width:150px;
 }
 
+/* =================== MARKER =================== */
+/* Центр по высоте строки. Базовая точка = ЛИНИЯ, но маркер чуть правее. */
 
-.process-item.reverse {
-  grid-template-columns: 160px 1fr;
+.marker{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  right:60px;      /* 👈 двигаем всю группу правее линии */
+  width:0;         /* всё внутри считаем от этой точки */
 }
 
-.process-item.reverse .img-wrap {
-  justify-content:flex-start;
+/* кружок на линии */
+.marker .dot{
+  position:absolute;
+  left:90px;      /* центр кружка попадает на линию (с учётом right:60px vs line right:90px) */
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:#6785c6;
 }
 
-.process-item.reverse .text {
-  order:2;
+/* прямоугольная капсула "Шаг N" СПРАВА от линии */
+.marker span{
+  position:absolute;
+  left:112px;          /* лейбл начинается правее линии */
+  top:50%;
+  transform:translateY(-50%);
+  background:#6785c6;
+  color:#fff;
+  padding:6px 16px;
+  font-size:14px;
+  border-radius:999px;
+  white-space:nowrap;
 }
 
+/* =================== АДАПТИВ =================== */
 
+/* ========================= RESPONSIVE ========================= */
+
+/* >992px — всё отлично, ничего не трогаем */
+
+/* планшеты */
 @media(max-width:992px){
-  .process-item {
-    grid-template-columns: 1fr 130px;
-    gap:20px;
+  .timeline-line,
+  .marker {
+    display:none !important;
   }
-  .process-item.reverse{
-    grid-template-columns: 130px 1fr;
+  
+  .process {
+    padding-right:0;
   }
 
-  .process-item .text { font-size:17px; padding:20px; }
-  .process-item img { width:120px; }
+  .process-item {
+    grid-template-columns: 1fr 140px;
+    gap:22px;
+  }
+
+  .process-item.reverse {
+    grid-template-columns: 140px 1fr;
+  }
+
+  .process-item img {
+    width:125px;
+  }
 }
 
-
+/* мобильные */
 @media(max-width:768px){
+  .timeline-line,
+  .marker {
+    display:none !important;
+  }
+
+  .process {
+    gap:26px;
+    margin:50px auto 60px;
+  }
+
   .process-item {
     grid-template-columns:1fr;
     text-align:center;
@@ -77,9 +141,8 @@
   .process-item .img-wrap {
     justify-content:center;
     order:-1;
-    margin-bottom:12px;
+    margin-bottom:14px;
   }
-
   .process-item.reverse .img-wrap { order:-1; }
 
   .process-item .text {
@@ -91,5 +154,59 @@
   .process-item img {
     width:160px;
     margin:auto;
+  }
+}
+/* =========================================================
+   📱 ФИКС АДАПТИВА ДЛЯ МОБИЛЬНЫХ — уменьшаем огромные промежутки
+   между шагами и делаем изображения немного компактнее
+   (таймлинию НЕ трогаем)
+========================================================= */
+
+/* планшеты — чуть плотнее */
+@media (max-width: 992px) {
+  .process-item {
+    padding: 26px 0 !important;   /* было 38px */
+  }
+
+  .process-item img {
+    width: 120px !important;
+  }
+}
+
+/* мобильные */
+@media (max-width: 768px) {
+  .process-item {
+    padding: 20px 0 !important;   /* уменьшили гигантские отступы */
+  }
+
+  /* изображение – компактнее, но не мелкое */
+  .process-item img {
+    width: 140px !important;
+  }
+
+  /* текст — чуть более плотный */
+  .process-item .text {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+}
+
+/* маленькие мобильные ≤480px */
+@media (max-width: 480px) {
+  .process {
+    margin: 40px auto 50px !important;
+  }
+
+  .process-item {
+    padding: 16px 0 !important;
+  }
+
+  .process-item img {
+    width: 130px !important;
+  }
+
+  .process-item .text {
+    font-size: 15px !important;
+    padding: 16px 14px !important;
   }
 }

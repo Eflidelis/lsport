@@ -14,7 +14,7 @@ const TheNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token"); // ★ теперь логика знает — сотрудник или нет
+  const token = localStorage.getItem("token"); // ★ знает, авторизован ли сотрудник
 
   const attributes = {
     static: {
@@ -36,18 +36,37 @@ const TheNavigation = () => {
   const btnRegAttributes = attributes.static.btnReg;
 
   const scrollTo = (selector) => {
-    const targetId = selector.replace("#", "");
+  const targetId = selector.replace("#", "");
 
-    if (window.location.pathname !== "/") {
-      navigate(`/?scroll=${targetId}`);
-      return;
-    }
+  // если не на главной — просто переходим на / с параметром
+  if (window.location.pathname !== "/") {
+    navigate(`/?scroll=${targetId}`);
+    return;
+  }
 
-    setTimeout(() => {
-      const el = document.querySelector(selector);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+  const doScroll = () => {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    // ищем твой липкий header и берём его высоту
+    const nav = document.querySelector(".navigation");
+    const headerOffset = nav
+      ? nav.getBoundingClientRect().height + 10 // +10px небольшой запас
+      : 0;
+
+    const rect = el.getBoundingClientRect();
+    const offsetPosition = rect.top + window.pageYOffset - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
   };
+
+  // даём DOM чуть отрендериться и скроллим с нужным отступом
+  setTimeout(doScroll, 50);
+};
+
 
   const goHome = () => navigate("/");
   const goPoss = () => scrollTo("#possibilities");
@@ -59,12 +78,8 @@ const TheNavigation = () => {
   const isOnArchive = location.pathname === "/applications/archive";
   const isOnStats = location.pathname === "/statistics";
 
-  /* ================================
-      ★★ главное изменение ★★
-      меню сотрудников ТОЛЬКО если есть токен
-      иначе меню как на Главной
-  =================================*/
-  const isStaffPage = token && (isOnApps || isOnArchive || isOnStats); // ★ ключевой фикс
+  // ★ меню сотрудников только если есть токен и мы на служебном роуте
+  const isStaffPage = token && (isOnApps || isOnArchive || isOnStats);
 
   let navItems = [
     { key: "home", label: "Главная", onClick: goHome },
@@ -118,32 +133,78 @@ const TheNavigation = () => {
     if (action) action();
   };
 
+  // ============================
+  // Главный useLayoutEffect:
+  // выставляет активный пункт и линию
+  //   - staff-меню по маршруту
+  //   - публичное меню: "/" → Главная, "/statistics" → Статистика
+  // ============================
   useLayoutEffect(() => {
     let index = 0;
+
     if (isStaffPage) {
       if (isOnApps) index = 1;
       else if (isOnArchive) index = 2;
       else if (isOnStats) index = 3;
+    } else {
+      if (location.pathname === "/statistics") index = 2;
+      else index = 0; // главная и любые другие публичные
     }
+
+    // ★ синхронизируем state с линией
+    setActiveIdx(index);
 
     const run = () => {
       updateUnderline(index);
       setUnderlineReady(true);
     };
 
-    updateUnderline(index);
+    // первый проход
     requestAnimationFrame(run);
-    const t = setTimeout(run, 200);
 
+    // подстраховка через timeout
+    const t = setTimeout(run, 250);
+
+    // и ещё раз после загрузки шрифтов
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(run).catch(() => {});
     }
 
     return () => clearTimeout(t);
-  }, [isStaffPage, isOnApps, isOnArchive, isOnStats, updateUnderline]);
+  }, [
+    isStaffPage,
+    isOnApps,
+    isOnArchive,
+    isOnStats,
+    location.pathname,
+    updateUnderline,
+  ]);
 
+    // ============================
+  // 🔥 ГЛОБАЛЬНЫЙ ФИКС ДЛЯ ОБНОВЛЕНИЯ СТРАНИЦЫ
+  // После полной загрузки layout мы ещё раз точно ставим линию.
+  // Работает на всех страницах: Главная, Статистика, служебные.
+  // ============================
+  useEffect(() => {
+    const handler = () => {
+      requestAnimationFrame(() => {
+        updateUnderline(activeIdx);
+      });
+    };
+
+    window.addEventListener("load", handler);
+
+    return () => window.removeEventListener("load", handler);
+  }, [activeIdx, updateUnderline]);
+
+
+  // ============================
+  // Скролл-подсветка ТОЛЬКО для главной страницы
+  // (на /statistics не работаем вообще)
+  // ============================
   useEffect(() => {
     if (isStaffPage) return;
+    if (location.pathname !== "/") return;
 
     const sections = [
       { idx: 0, selector: ".header" },
@@ -182,8 +243,11 @@ const TheNavigation = () => {
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isStaffPage, activeIdx, updateUnderline]);
+  }, [isStaffPage, activeIdx, updateUnderline, location.pathname]);
 
+  // ============================
+  // STAFF-меню: активный пункт строго по маршруту
+  // ============================
   useEffect(() => {
     if (!isStaffPage) return;
 
@@ -201,24 +265,43 @@ const TheNavigation = () => {
   return (
     <nav className={`navigation ${isStaffPage ? "navigation--staff" : ""}`}>
       <div className="container nav-container">
-
-        <a href="#" className="nav-logo"
-          onClick={(e) => { e.preventDefault(); closeMobile(); window.location.reload(); }}>
-          <img className="logo" src={logo} alt="logo"/>
+        <a
+          href="#"
+          className="nav-logo"
+          onClick={(e) => {
+            e.preventDefault();
+            closeMobile();
+            window.location.reload();
+          }}
+        >
+          <img className="logo" src={logo} alt="logo" />
         </a>
 
         {/*========= DESKTOP MENU =========*/}
         <div className="header-nav desktop-only">
-          <ul ref={navRef} className={underlineReady ? "nav-underline-ready" : ""}>
-            {navItems.map((it,i)=>(
+          <ul
+            ref={navRef}
+            className={underlineReady ? "nav-underline-ready" : ""}
+          >
+            {navItems.map((it, i) => (
               <li key={it.key}>
-                { it.to ? (
-                  <Link to={it.to} className={i===activeIdx?"active as-link":"as-link"} onClick={() => handleClick(i)}>
+                {it.to ? (
+                  <Link
+                    to={it.to}
+                    className={i === activeIdx ? "active as-link" : "as-link"}
+                    onClick={() => handleClick(i)}
+                  >
                     {it.label}
                   </Link>
                 ) : (
-                  <a className={i===activeIdx?"active":""} href="#"
-                     onClick={(e)=>{e.preventDefault(); handleClick(i,it.onClick);}}>
+                  <a
+                    className={i === activeIdx ? "active" : ""}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleClick(i, it.onClick);
+                    }}
+                  >
                     {it.label}
                   </a>
                 )}
@@ -229,30 +312,52 @@ const TheNavigation = () => {
 
         {/*========= DESKTOP AUTH =========*/}
         <div className="nav-actions desktop-only">
-          <AppBtn text="Регистрация" {...btnRegAttributes}
-            onClick={()=>window.location.href="https://lsport.net/Person/Register"}/>
-          <AppBtn text="Вход" {...btnLoginAttributes}
-            onClick={()=>window.location.href="https://lsport.net/Home/Login?blank=true"}/>
+          <AppBtn
+            text="Регистрация"
+            {...btnRegAttributes}
+            onClick={() =>
+              (window.location.href = "https://lsport.net/Person/Register")
+            }
+          />
+          <AppBtn
+            text="Вход"
+            {...btnLoginAttributes}
+            onClick={() =>
+              (window.location.href =
+                "https://lsport.net/Home/Login?blank=true")
+            }
+          />
         </div>
 
         {/*========= BURGER =========*/}
         <div className="burger-wrap mobile-only" onClick={toggleMobile}>
-          <button className={`burger ${mobileOpen?"is-open":""}`}><span/><span/><span/></button>
+          <button className={`burger ${mobileOpen ? "is-open" : ""}`}>
+            <span />
+            <span />
+            <span />
+          </button>
           <span className="burger-label">Меню</span>
         </div>
       </div>
 
       {/*========= MOBILE MENU =========*/}
-      <div className={`mobile-menu ${mobileOpen?"open":""}`}>
+      <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
         <div className="mobile-glass">
           <ul>
-            {navItems.map((it)=>(
+            {navItems.map((it) => (
               <li key={it.key}>
                 {it.to ? (
-                  <Link to={it.to} onClick={closeMobile}>{it.label}</Link>
+                  <Link to={it.to} onClick={closeMobile}>
+                    {it.label}
+                  </Link>
                 ) : (
-                  <button className="as-button"
-                    onClick={()=>{closeMobile(); it.onClick();}}>
+                  <button
+                    className="as-button"
+                    onClick={() => {
+                      closeMobile();
+                      it.onClick();
+                    }}
+                  >
                     {it.label}
                   </button>
                 )}
@@ -261,10 +366,23 @@ const TheNavigation = () => {
           </ul>
 
           <div className="mobile-actions">
-            <AppBtn text="Регистрация" {...btnRegAttributes}
-              onClick={()=>{closeMobile(); window.location.href="https://lsport.net/Person/Register"}}/>
-            <AppBtn text="Вход" {...btnLoginAttributes}
-              onClick={()=>{closeMobile(); window.location.href="https://lsport.net/Home/Login?blank=true"}}/>
+            <AppBtn
+              text="Регистрация"
+              {...btnRegAttributes}
+              onClick={() => {
+                closeMobile();
+                window.location.href = "https://lsport.net/Person/Register";
+              }}
+            />
+            <AppBtn
+              text="Вход"
+              {...btnLoginAttributes}
+              onClick={() => {
+                closeMobile();
+                window.location.href =
+                  "https://lsport.net/Home/Login?blank=true";
+              }}
+            />
           </div>
         </div>
       </div>

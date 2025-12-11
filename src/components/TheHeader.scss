@@ -1,13 +1,31 @@
-
 .header {
   height: 500px;
   position: relative;
+  width: 100%;                      /* фулл ширина — как сайт */
+
+  /* === фоновые слои и карточка теперь совпадают с шириной сайта === */
+  .hero-wrap.glow-card,
+  .header-bg-wrapper,
+  .header-img-bg,
+  .header-video-bg,
+  .hero-wrap .glow-inner {
+    width: min(1400px, 92%);        /* одинаково с навигацией */
+    margin: 0 auto;                 /* центрирование */
+    border-radius: 24px;
+  }
+
 
   .hero-wrap.glow-card {
     --radius: 24px;
     border-radius: var(--radius);
     height: 100%;
     overflow: visible;
+
+    /* ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ */
+    width: 100%;                 // 🔥 добавлено — растягивает фон
+    max-width: 1400px;           // 🔥 добавлено — совпадает с шириной сайта
+    margin-inline: auto;         // 🔥 центрируем блок внутри .header
+    /* ⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆ */
 
     --card-bg:
       linear-gradient(rgba(73, 79, 182, 0.3), rgba(148, 204, 236, 0.3)),
@@ -18,6 +36,18 @@
     --glow-boost: 12%;
     --glow-blend: plus-lighter;
     --blend: soft-light;
+  }
+
+  .hero-wrap .glow-inner {
+    height: 100%;
+    border-radius: inherit;
+    overflow: hidden;
+
+    /* ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ */
+    width: 100%;                 // 🔥 расширяет до ширины glow-card
+    max-width: 1400px;           // 🔥 чтобы не был уже шапки
+    margin-inline: auto;         // 🔥 выравнивание по центру
+    /* ⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆ */
   }
 
   .header-bg-wrapper {
@@ -80,12 +110,6 @@
     }
   }
 
-  .hero-wrap .glow-inner {
-    height: 100%;
-    border-radius: inherit;
-    overflow: hidden;
-  }
-
   .grid {
     display: grid;
     grid-template:
@@ -130,7 +154,6 @@
   }
 }
 
-
 .logo {
   display: inline-flex;
   gap: 4px;
@@ -151,7 +174,6 @@
   cursor: pointer;
 }
 
-
 .logo:hover .logo__ch {
   animation: logo-jump .6s ease var(--d, 0s) 1;
 }
@@ -161,7 +183,6 @@
 .logo__ch:nth-child(4) { --d: .15s; }
 .logo__ch:nth-child(5) { --d: .20s; }
 .logo__ch:nth-child(6) { --d: .25s; }
-
 
 .logo.wave-run .logo__ch {
   animation: logo-jump .6s ease var(--d, 0s) 1;
@@ -234,6 +255,20 @@
   90%     { transform: translateY(-35vh) scaleY(4); }
   100%    { transform: none; }
 }
+/* =========================================================
+   🔥 Выровнять внутренний блок .glow-inner по ширине хедера
+   (исправляет именно ту проблему, что ты показывала на скрине)
+========================================================= */
+.header .hero-wrap.glow-card {
+  width: 100%;              /* растягиваем карточку на всю ширину */
+}
+
+.header .hero-wrap .glow-inner {
+  width: 100%;              /* внутренний слой тоже на всю ширину */
+  max-width: none;          /* снимаем скрытое ограничение */
+  border-radius: inherit;   /* повторяем скругление родителя */
+  overflow: hidden;         /* чтобы не торчали края */
+}
 
 
 /* планшет (до 1024px) */
@@ -269,5 +304,91 @@
       font-size: 20px;
       padding-top: 12px;
     }
+  }
+}
+
+/* =========================================================
+   ✅ FINAL OVERRIDE: ширина и одна-единственная рамка
+   (Ничего из твоего не удаляем, только переопределяем)
+========================================================= */
+.header {
+  width: min(1400px, 92%);
+  margin-inline: auto;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.header .hero-wrap.glow-card,
+.header .header-bg-wrapper,
+.header .header-img-bg,
+.header .header-video-bg {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+}
+
+.header .hero-wrap .glow-inner {
+  width: 100%;
+  max-width: none;
+}
+
+/* =========================================================
+   📱 SUPER SMALL DEVICES — iPhone SE, старые Android
+   (до 480px)
+========================================================= */
+@media (max-width: 480px) {
+  .header {
+    height: 320px;
+
+    .title {
+      font-size: 42px;       /* меньше, но всё ещё красиво */
+    }
+
+    .subtitle {
+      font-size: 18px;
+      padding-top: 10px;
+    }
+  }
+}
+
+/* =========================================================
+   📱 ULTRA SMALL — 360px (Galaxy Fold, iPhone SE portrait)
+========================================================= */
+@media (max-width: 360px) {
+  .header {
+    height: 300px;
+
+    .title {
+      font-size: 34px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      line-height: 1.25;
+      padding-top: 8px;
+    }
+  }
+
+  /* уменьшаем внутренний контейнер, чтобы текст не упирался в края */
+  .header .hero-wrap .glow-inner {
+    padding-inline: 10px;
+  }
+}
+
+/* =========================================================
+   📱 EXTREME SMALL — 320px (минимальная ширина CSS)
+========================================================= */
+@media (max-width: 330px) {
+  .header {
+    height: 280px;
+  }
+
+  .header .title {
+    font-size: 30px !important;
+  }
+
+  .header .subtitle {
+    font-size: 14px !important;
   }
 }

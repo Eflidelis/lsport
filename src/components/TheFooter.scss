@@ -1,17 +1,41 @@
 .footer {
-  border-top: 1px solid rgba(0,0,0,0.07);
-  background: #f4f4f4;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  background: transparent;           // фон страницы, а не сплошная серая полоса
   padding: 14px 0;
-
-  .footer__inner {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
 }
 
+/* Внутри футера уже есть .container из JSX,
+   поэтому здесь НИЧЕГО не переопределяем по ширине. */
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* серая плашка только по ширине контейнера */
+  background: #f4f4f4;
+  border-radius: 12px 12px 0 0;
+  padding: 10px 16px;
+}
+
+/* ===== мобильные ===== */
 @media (max-width: 768px) {
+  .footer {
+    padding: 10px 0;
+  }
+
   .footer .footer__inner {
     justify-content: center;
+  }
+
+  /* не даём кнопке вылезать за края контейнера */
+  .footer .arrow-btn {
+    max-width: 100%;
+  }
+
+  .footer .arrow-btn .label {
+    font-size: 14px;        /* чуть меньше, но читаемо */
+    white-space: normal;    /* разрешаем перенос */
+    line-height: 1.4;
+    text-align: left;
   }
 }

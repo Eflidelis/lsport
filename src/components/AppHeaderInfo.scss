@@ -1,8 +1,7 @@
-
 .hi {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   line-height: 1.2;
   cursor: pointer;
@@ -46,7 +45,6 @@
     white-space: normal;
   }
 
-  /* Цветовые темы */
   &.hi--blue   .hi__plate { background: linear-gradient(180deg,#3b82f6 0%,#1d4ed8 100%); }
   &.hi--red    .hi__plate { background: linear-gradient(180deg,#f97316 0%,#ef4444 100%); }
   &.hi--yellow .hi__plate { background: linear-gradient(180deg,#facc15 0%,#f59e0b 100%); }

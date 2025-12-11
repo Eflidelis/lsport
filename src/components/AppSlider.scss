@@ -172,3 +172,37 @@
   border-radius:2px;
   transition:.35s ease;
 }
+
+/* ============================================================
+   📱 ADAPTIVE FIX — предотвращаем выпадение текста из блока
+   (не затрагивает TheNavigation)
+============================================================ */
+@media(max-width: 420px) {
+
+  .glass-nav.mobile .poss-current {
+    max-width: 70vw;
+    white-space: normal !important;
+    overflow-wrap: break-word;
+    text-align: right;
+  }
+
+  .glass-nav.mobile {
+    padding: 10px 12px !important;
+  }
+
+  .glass-nav.mobile .poss-dropdown li a {
+    white-space: normal !important;
+  }
+}
+
+@media(max-width: 360px) {
+
+  .glass-nav.mobile .poss-current {
+    max-width: 75vw;
+    font-size: 14px;
+  }
+
+  .glass-nav.mobile .poss-burger {
+    font-size: 20px;
+  }
+}

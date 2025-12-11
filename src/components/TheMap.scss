@@ -1,70 +1,143 @@
+/* ---------------------------------------------------
+   МАП БЛОК
+--------------------------------------------------- */
 .map {
-  .columns {
-    margin-top: 50px;
-    display: flex;
-    column-gap: 15px;
-    width: 100%;
+  width: 100%;
+  overflow: hidden; /* важно чтобы карта обрезалась в окне */
+}
 
-    .left,
-    .right {
-      flex: 1;
+/* элемент карты */
+.hm-map-element {
+  width: 100%;
+  height: 500px;
+}
 
-      .item {
-        width: 100%;
-        display: grid;
-        align-items: center;
-        grid-template-columns: minmax(150px, 250px) 1fr;
-
-        &:not(:last-child) {
-          margin-bottom: 12px;
-        }
-      }
-    }
+/* планшеты */
+@media (max-width: 992px) {
+  .hm-map-element {
+    height: 420px;
   }
 }
 
+/* мобильные */
+@media (max-width: 600px) {
+  .hm-map-element {
+    height: 360px;
+    touch-action: pan-x pan-y !important;
+  }
+}
 
-.map-popup-overlay{
+/* ---------------------------------------------------
+   КОЛОНКИ СТАТИСТИКИ (desktop/tablet)
+--------------------------------------------------- */
+.map .columns {
+  margin-top: 50px;
+  display: flex;
+  column-gap: 15px;
+  width: 100%;
+}
+
+.map .left,
+.map .right {
+  flex: 1;
+}
+
+.map .item {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: minmax(150px, 250px) 1fr;
+}
+
+.map .item:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+/* скрываем прогрессбары на мобильных */
+@media (max-width: 600px) {
+  .map .columns {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------
+   POPUP
+--------------------------------------------------- */
+
+.map-popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.45);
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 3000;
-  animation: fadeIn .35s ease;
+  animation: fadeIn 0.35s ease;
 }
 
-.map-popup{
+.map-popup {
+  position: relative;
   background: #fff;
   padding: 22px 28px;
   border-radius: 14px;
-  box-shadow: 0 10px 50px rgba(0,0,0,.25);
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
   font-size: 19px;
   text-align: center;
   max-width: 420px;
-  animation: popupZoom .35s ease;
+  width: 90%;
+  animation: popupZoom 0.35s ease;
   line-height: 1.45;
 }
 
-.popup-close{
-  background:none;
-  border:none;
-  font-size:26px;
-  position:absolute;
-  top:10px;
-  right:14px;
-  cursor:pointer;
-  opacity:.75;
-  transition:.25s;
+.popup-close {
+  background: none;
+  border: none;
+  font-size: 26px;
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: 0.25s;
 }
-.popup-close:hover{ opacity:1; }
 
-@keyframes fadeIn{
-  from{opacity:0;} to{opacity:1;}
+.popup-close:hover {
+  opacity: 1;
 }
-@keyframes popupZoom{
-  from{transform:scale(.85);opacity:0;}
-  to{transform:scale(1);opacity:1;}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes popupZoom {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ---------------------------------------------------
+   MOBILE POPUP FIX — уменьшен более значительно
+--------------------------------------------------- */
+@media (max-width: 600px) {
+  .map-popup {
+    max-width: 260px;
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+
+  .popup-close {
+    font-size: 20px;
+    top: 4px;
+    right: 8px;
+  }
+}
+/* ===== MOBILE FIX: уменьшить и поднять заголовок ===== */
+@media (max-width: 600px) {
+  .stats-subtitle {
+    font-size: 18px !important;   /* сильно меньше */
+    margin: 12px 0 20px !important; /* поднимаем ближе к карте */
+    line-height: 1.3;
+    text-align: left !important;
+  }
 }

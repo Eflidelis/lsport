@@ -1,8 +1,24 @@
 .offer-mobile-app {
-  .container { padding-left: 0; padding-right: 0; }
+
+  /* ⭐ правильное растяжение блока на ширину контейнера */
+  > .container {
+    width: min(1400px, 92%);
+    margin-inline: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* удаляем узкий внутренний контейнер, т.к. он ломал ширину */
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
 
   .mobile-card.glow-card {
     --radius: 24px;
+    width: 100%;
+    max-width: 100%;
     border-radius: var(--radius);
     background: #eaf1ff;
     box-shadow:
@@ -17,6 +33,8 @@
       align-items: center;
       padding: 34px 40px;
       border-radius: inherit;
+      width: 100%;
+      box-sizing: border-box;
     }
   }
 
@@ -29,23 +47,37 @@
       color: #475569;
     }
 
-    .lead, .desc {
+    .lead,
+    .desc {
       margin: 0 0 18px;
       font-size: 18px;
       color: #1e1e1e;
     }
 
-    .lead { margin-bottom: 14px; }
+    .lead {
+      margin-bottom: 14px;
+    }
 
     .stores {
       display: flex;
       gap: 18px;
-      .store-btn { display: inline-flex; line-height: 0; }
-      svg { height: 44px; width: auto; }
+
+      .store-btn {
+        display: inline-flex;
+        line-height: 0;
+      }
+
+      svg {
+        height: 44px;
+        width: auto;
+      }
     }
   }
 
-  .right { overflow: visible; justify-self: end; }
+  .right {
+    overflow: visible;
+    justify-self: end;
+  }
 
   .phone {
     position: relative;
@@ -64,15 +96,32 @@
       pointer-events: none;
     }
 
-    .phone__icon { position: absolute; z-index: 2; transform-origin: center; }
+    .phone__icon {
+      position: absolute;
+      z-index: 2;
+      transform-origin: center;
+    }
 
-    .phone__icon--trophy   { top: 8%;  right: 18%; transform: rotate(15deg); }
-    .phone__icon--medal    { top: 60%; left: -8%;  transform: rotate(-15deg); }
-    .phone__icon--calendar { bottom: 8%; right: 5%;  transform: rotate(15deg); }
+    .phone__icon--trophy {
+      top: 8%;
+      right: 18%;
+      transform: rotate(15deg);
+    }
+
+    .phone__icon--medal {
+      top: 60%;
+      left: -8%;
+      transform: rotate(-15deg);
+    }
+
+    .phone__icon--calendar {
+      bottom: 8%;
+      right: 5%;
+      transform: rotate(15deg);
+    }
   }
 
-
-  /* --- мобильная адаптация (добавлено) --- */
+  /* --- мобильная адаптация (твои) --- */
   @media (max-width: 992px) {
     .mobile-card.glow-card .glow-inner {
       grid-template-columns: 1fr;
@@ -80,10 +129,18 @@
       padding: 24px;
     }
 
-    .right { order: 2; justify-self: center; }
-    .left  { order: 1; }
+    .right {
+      order: 2;
+      justify-self: center;
+    }
 
-    .phone { height: clamp(260px, 52vw, 420px); }
+    .left {
+      order: 1;
+    }
+
+    .phone {
+      height: clamp(260px, 52vw, 420px);
+    }
   }
 
   @media (max-width: 768px) {
@@ -93,24 +150,41 @@
     }
 
     .left .lead,
-    .left .desc { font-size: 16px; text-align: center; }
+    .left .desc {
+      font-size: 16px;
+      text-align: center;
+    }
 
     .stores {
       justify-content: center;
-      svg { height: 40px; }
+
+      svg {
+        height: 40px;
+      }
     }
 
-    .phone { height: 300px; margin-top: 10px; }
+    .phone {
+      height: 300px;
+      margin-top: 10px;
+    }
   }
 
   @media (max-width: 480px) {
-    .left .title { font-size: 26px; }
-    .stores svg { height: 36px; }
-    .phone { height: 260px; }
+    .left .title {
+      font-size: 26px;
+    }
+
+    .stores svg {
+      height: 36px;
+    }
+
+    .phone {
+      height: 260px;
+    }
   }
 }
 
-/* Центровка телефонов на мобильных */
+/* Центровка телефонов на мобильных (твои) */
 @media (max-width: 992px) {
   .offer-mobile-app .phone .phones {
     left: 50%;
@@ -175,4 +249,121 @@
   .offer-mobile-app .left .stores svg {
     height: 36px;
   }
+}
+
+/* ============================================================
+   📱 ФИНАЛЬНЫЙ ФИКС — текст и кнопки не вываливаются,
+   телефоны центрируются и не исчезают
+============================================================ */
+
+/* экраны ≤ 480px */
+@media (max-width: 480px) {
+
+  /* 🔹 уменьшаем внутренние паддинги */
+  .offer-mobile-app .mobile-card.glow-card .glow-inner {
+    padding: 20px 16px !important;
+    gap: 20px !important;
+  }
+
+  /* 🔹 текст НЕ вываливается */
+  .offer-mobile-app .left {
+    max-width: 100% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .offer-mobile-app .left .lead,
+  .offer-mobile-app .left .desc {
+    max-width: 100% !important;
+    display: block;
+  }
+
+  /* 🔹 кнопки — по центру */
+  .offer-mobile-app .left .stores {
+    justify-content: center !important;
+    gap: 14px;
+  }
+
+  .offer-mobile-app .left .stores svg {
+    height: 34px !important;
+  }
+
+  /* 🔹 телефоны по центру */
+  .offer-mobile-app .phone {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .offer-mobile-app .phone .phones {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+
+    width: 85% !important;
+    max-width: 360px !important;
+    height: auto !important;
+  }
+
+  /* 🔹 иконки вокруг — немного уменьшаем */
+  .offer-mobile-app .phone__icon {
+    transform: scale(0.85);
+  }
+}
+
+/* экраны ≤ 360px */
+@media (max-width: 360px) {
+
+  .offer-mobile-app .mobile-card.glow-card .glow-inner {
+    padding: 16px 12px !important;
+    gap: 16px !important;
+  }
+
+  .offer-mobile-app .left .title {
+    font-size: 22px !important;
+  }
+
+  .offer-mobile-app .phone .phones {
+    width: 78% !important;
+  }
+
+  .offer-mobile-app .phone__icon {
+    transform: scale(0.75);
+  }
+}
+/* ============================================================
+   📱 ФИКС ВЫПАДЕНИЯ ТЕКСТА И КНОПОК ДЛЯ TheOfferMobileApp
+   Только для мобильников ≤ 480px
+============================================================ */
+
+@media (max-width: 480px) {
+
+  /* уменьшаем внутренние паддинги карточки */
+  .offer-mobile-app .mobile-card.glow-card .glow-inner {
+    padding: 18px 14px !important;
+    gap: 16px !important;
+  }
+
+  /* текст — всегда в границах */
+  .offer-mobile-app .left {
+    max-width: 100% !important;
+    overflow-wrap: break-word;
+  }
+
+  /* кнопки — уменьшаем и переносим на новую строку, если нужно */
+  .offer-mobile-app .left .stores {
+    flex-wrap: wrap;                 /* ← главный фикс */
+    gap: 10px !important;
+    justify-content: flex-start !important;
+  }
+
+  /* сами кнопки — компактнее */
+  .offer-mobile-app .left .stores svg {
+    height: 32px !important;
+    width: auto;
+  }
+
+  /* телефоны — уже исправлены, оставляем поведение */
 }

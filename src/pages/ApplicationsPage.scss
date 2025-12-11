@@ -1,5 +1,11 @@
 .applications-page {
-  padding: 20px;
+  /* ширина как у меню */
+  width: min(1400px, 92%);
+  margin-inline: auto;
+  margin-top: 24px;
+  margin-bottom: 40px;
+
+  padding: 20px 16px;
   background-color: #f5f7fb;
   border-radius: 12px;
 
@@ -10,10 +16,10 @@
     color: #1e293b;
   }
 
-  
+  /* 🔹 ПАНЕЛЬ ДЕЙСТВИЙ */
   .actions-panel {
     position: sticky;
-    top: 75px; 
+    top: 90px;
     z-index: 1500;
 
     background: rgba(255, 255, 255, 0.55);
@@ -81,11 +87,13 @@
 
     .sort-btn {
       background: #475569 !important;
-      &:hover { background: #334155 !important; }
+      &:hover {
+        background: #334155 !important;
+      }
     }
   }
 
-  /* Заявки */
+  /* 🔹 СПИСОК ЗАЯВОК */
   ul {
     list-style-type: none;
     padding: 0;
@@ -105,8 +113,7 @@
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
       }
 
-      /* основная таблица заявки */
-      
+      /* 🔹 ТАБЛИЦА ПОЛЕЙ ЗАЯВКИ */
       .app-table {
         display: grid;
         grid-template-columns: 160px 1fr;
@@ -131,11 +138,11 @@
             background: #ffffff;
             color: #1e293b;
             transition: 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
             &:focus {
               border-color: #2b6de8;
-              box-shadow: 0 0 0 3px rgba(43,109,232,0.25);
+              box-shadow: 0 0 0 3px rgba(43, 109, 232, 0.25);
               outline: none;
             }
           }
@@ -147,25 +154,26 @@
         }
       }
 
-      
+      /* 🔹 КНОПКИ СОХРАНИТЬ / ОТМЕНА */
       .edit-buttons {
         margin-top: 16px;
         display: flex;
         gap: 12px;
 
         .save {
-          background: #22c55e !important;
-          color: white;
-          padding: 10px 16px;
-          border-radius: 8px;
-          font-size: 14px;
+          background: #198e46 !important; /* насыщённый зелёный */
+          color: #fff !important;
+          padding: 12px 18px;
+          border-radius: 8px !important;
+          font-size: 15px;
           font-weight: 600;
           border: none;
           cursor: pointer;
-          transition: 0.2s;
-          box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+          transition: 0.2s ease;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+
           &:hover {
-            background: #16a34a !important;
+            background: #14743a !important;
             transform: translateY(-2px);
           }
         }
@@ -173,14 +181,15 @@
         .cancel {
           background: #f3f4f6 !important;
           color: #374151;
-          padding: 10px 16px;
-          border-radius: 8px;
-          font-size: 14px;
-          font-weight: 600;
           border: 1px solid #d1d5db;
+          padding: 12px 18px;
+          border-radius: 8px !important;
+          font-size: 15px;
+          font-weight: 600;
           cursor: pointer;
-          transition: 0.2s;
-          box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+          transition: 0.2s ease;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+
           &:hover {
             background: #e5e7eb !important;
             transform: translateY(-2px);
@@ -188,6 +197,7 @@
         }
       }
 
+      /* 🔹 КНОПКА "ИЗМЕНИТЬ" */
       > button:not(.save):not(.cancel) {
         background: #2b6de8 !important;
         color: white;
@@ -198,7 +208,7 @@
         border: none;
         cursor: pointer;
         transition: 0.2s ease;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
 
         &:hover {
           background: darken(#2b6de8, 7%) !important;
@@ -206,18 +216,33 @@
         }
       }
 
-      button { margin-top: 18px; }
+      /* общий отступ кнопок от содержания */
+      button {
+        margin-top: 18px;
+      }
     }
   }
 }
 
+/* 🔹 ЧЕКБОКС ТОЛЬКО НА СТРАНИЦЕ ЗАЯВОК */
+.applications-page .checker {
+  margin-bottom: 14px;
+}
+
+/* Чуть больше отступа кнопки "Изменить" от заявки */
+.applications-page ul li > button {
+  margin-top: 22px;
+}
+
+/* ──────────────────────────────
+   АДАПТИВ ДЛЯ ТАБЛИЦЫ
+   ────────────────────────────── */
 
 @media (max-width: 992px) {
   .applications-page ul li .app-table {
-    grid-template-columns: 120px 1fr; 
+    grid-template-columns: 120px 1fr;
   }
 }
-
 
 @media (max-width: 768px) {
   .applications-page ul li .app-table {
@@ -243,7 +268,7 @@
   display: inline-block;
   padding: 8px 14px;
   border-radius: 10px;
-  transition: background .25s ease, color .25s ease, box-shadow .25s ease;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
 /* убираем синюю линию только на служебных страницах */
@@ -255,9 +280,7 @@
 /* красивый белый hover-прямоугольник */
 .navigation--staff .header-nav li a:hover,
 .navigation--staff .header-nav li .as-link:hover {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   color: #0a1a33 !important;
-  box-shadow: 0 0 14px rgba(255,255,255,0.55);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.55);
 }
-
-

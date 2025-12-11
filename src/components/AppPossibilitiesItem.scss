@@ -27,7 +27,7 @@
 
       li {
         line-height: 1.35;
-        font-size: 18px;
+        font-size: 20px;
       }
     }
 
@@ -56,4 +56,181 @@
     .col.right { order: 2; }
     .col.left  { order: 1; }
   }
+}
+
+/* ======================================================
+   🎯 Все изображения в карточках — одинаковой высоты
+====================================================== */
+
+.poss-item .col.right img {
+  height: 260px;        /* фиксированная равная высота для всех */
+  width: auto;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+/* УБИРАЕМ старое уменьшение apple5-7 полностью */
+.poss-item img[src*="apple5"],
+.poss-item img[src*="apple6"],
+.poss-item img[src*="apple7"] {
+  transform: none !important;
+}
+
+/* Карточки теперь подстраиваются плотнее под содержимое */
+.poss-item {
+  padding-top: 22px;
+  padding-bottom: 22px;
+  align-items: center;
+}
+
+.poss-item .col.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poss-item img[src*="apple5"] {
+  height: 330px !important;   /* можешь менять на 290 / 310 / 330 */
+  transform: scale(1.10);     /* регулируй до 1.10 если надо */
+}
+
+
+/* ==== apple6 — отдельно, подбираешь свой размер ==== */
+.poss-item img[src*="apple6"] {
+  height: 330px !important;   /* можешь дать ниже/выше чем apple5 */
+  transform: scale(1.12);     /* например 1.03–1.12 */
+}
+
+/* =========================================================
+   📱 АДАПТИВ — чтобы карточки красиво сжимались
+========================================================= */
+
+/* планшет 992–768px */
+@media (max-width: 992px) {
+
+  .poss-item {
+    padding: 20px 22px;
+    gap: 18px;
+  }
+
+  .poss-item .col.left .list li {
+    font-size: 18px;       /* было 20 */
+    line-height: 1.32;
+  }
+
+  .poss-item .col.right img {
+    height: 240px;         /* вместо 260px */
+  }
+
+  /* индивидуальные — чуть ниже */
+  .poss-item img[src*="apple5"] { height: 270px !important; }
+  .poss-item img[src*="apple6"] { height: 275px !important; }
+}
+
+
+/* смартфоны до 640px */
+@media (max-width: 640px) {
+
+  .poss-item {
+    padding: 18px 18px;
+    gap: 16px;
+  }
+
+  .poss-item .col.left .list li {
+    font-size: 16px;       /* ещё компактнее */
+    line-height: 1.30;
+  }
+
+  .poss-item .col.right img {
+    height: 200px;         /* оптимально на телефоне */
+  }
+
+  /* индивидуальные */
+  .poss-item img[src*="apple5"] { height: 230px !important; }
+  .poss-item img[src*="apple6"] { height: 235px !important; }
+}
+
+
+/* маленькие телефоны ≤ 430px */
+@media (max-width: 430px) {
+
+  .poss-item {
+    padding: 14px 14px;
+  }
+
+  .poss-item .col.left .list li {
+    font-size: 15px;
+  }
+
+  .poss-item .col.right img {
+    height: 180px;
+  }
+
+  .poss-item img[src*="apple5"] { height: 205px !important; }
+  .poss-item img[src*="apple6"] { height: 210px !important; }
+}
+
+/* ============================================================
+   📱 ULTRA-SMALL DEVICES — iPhone SE, 320–360px ширина экрана
+   (добавляем поверх всех твоих правил)
+============================================================ */
+
+@media (max-width: 380px) {
+
+  .poss-item {
+    padding: 12px 12px;
+    gap: 14px;
+    grid-template-columns: 1fr !important;   /* всегда одна колонка */
+  }
+
+  /* ---- ТЕКСТ ---- */
+  .poss-item .col.left .list li {
+    font-size: 15px !important;   /* НЕ меньше — остаётся комфортным */
+    line-height: 1.32;
+    word-break: break-word;       /* предотвращает выход текста за блок */
+  }
+
+  /* ---- КНОПКА ---- */
+  .poss-item .cta {
+    transform: scale(0.92);       /* аккуратное уменьшение, не ломает UX */
+    transform-origin: left center;
+  }
+
+  /* ---- ИЗОБРАЖЕНИЯ ---- */
+  .poss-item .col.right img {
+    height: 165px !important;
+  }
+
+  /* индивидуальные изменения для apple-макетов */
+  .poss-item img[src*="apple5"] { height: 185px !important; }
+  .poss-item img[src*="apple6"] { height: 190px !important; }
+}
+
+
+/* ============================================================
+   📱 SUPER-SMALL (≤ 340px) — старые Android, iPhone SE 1 gen
+============================================================ */
+
+@media (max-width: 340px) {
+
+  .poss-item {
+    padding: 10px 10px;
+    gap: 12px;
+  }
+
+  .poss-item .col.left .list li {
+    font-size: 14.5px !important;  /* всё ещё читаемо */
+    line-height: 1.30;
+  }
+
+  .poss-item .cta {
+    transform: scale(0.88);
+  }
+
+  .poss-item .col.right img {
+    height: 150px !important;
+  }
+
+  .poss-item img[src*="apple5"] { height: 172px !important; }
+  .poss-item img[src*="apple6"] { height: 178px !important; }
 }

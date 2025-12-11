@@ -20,10 +20,15 @@
 .regional-statistics,
 .offer-mobile-app,
 .application {
-  margin-top: 72px;
+  margin-top: 12px;
 }
 
-/* Блок "Что будет дальше?" — финальный, оставляем снизу больше воздуха */
+/* 📌 Отступ перед блоком заявки больше */
+.application {
+  margin-top: 80px; 
+}
+
+/* снизу больше воздуха */
 .process-title-main {
   margin-top: 100px;
   margin-bottom: 40px;
@@ -45,3 +50,4 @@
     margin-top: 90px;
   }
 }
+

@@ -1,67 +1,75 @@
-
+/* =============================================
+   Контейнер страницы — ширина, как у меню
+============================================= */
 .archived-applications-page {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  width: min(1400px, 92%);
+  margin-inline: auto;
+  padding: 20px 0;
+  background-color: #f5f7fb;
+  border-radius: 12px;
   font-family: "Inter", sans-serif;
+  padding: 20px 24px;
 
   h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #183D81;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 22px;
+    color: #1e293b;
   }
 
+  /* =============================================
+        СПИСОК ЗАЯВОК
+  ============================================= */
   ul {
     list-style-type: none;
     padding: 0;
 
     li {
       background-color: #fff;
-      margin: 12px 0;
-      padding: 18px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      margin: 18px 0;
+      padding: 22px;
+      border-radius: 12px;
+      border: 1px solid #dbe2ef;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
       display: flex;
       flex-direction: column;
 
-      /* табличная структура */
+      /* Табличная сетка */
       .app-table {
         display: grid;
-        grid-template-columns: 160px 1fr;
-        row-gap: 8px;
-        column-gap: 10px;
+        grid-template-columns: 180px 1fr;
+        row-gap: 10px;
+        column-gap: 16px;
         font-size: 15px;
 
-        @media (max-width: 600px) {
-          grid-template-columns: 1fr;
-        }
-
         .label {
-          font-weight: 600;
-          color: #183D81;
+          font-weight: 700;
+          color: #1e293b;
         }
 
         .value {
-          color: #333;
+          color: #374151;
           word-break: break-word;
         }
       }
 
-      /* Кнопка удаления */
+      /* КНОПКА "Удалить окончательно" */
       .delete-btn {
-        margin-top: 15px;
-        padding: 8px 14px;
+        margin-top: 20px;
+        align-self: flex-start;
+
+        padding: 10px 18px;
         background-color: #d93636;
         color: white;
         border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 600;
+
         cursor: pointer;
-        align-self: flex-start;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-        transition: background 0.2s ease, transform 0.15s ease;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        transition: 0.2s ease;
 
         &:hover {
           background-color: darken(#d93636, 10%);
@@ -72,6 +80,78 @@
           transform: translateY(0);
         }
       }
+    }
+  }
+}
+
+/* =============================================
+   АДАПТИВ — ПЛАНШЕТЫ
+============================================= */
+@media (max-width: 992px) {
+  .archived-applications-page ul li {
+    padding: 18px;
+
+    .app-table {
+      grid-template-columns: 150px 1fr;
+    }
+  }
+}
+
+/* =============================================
+   АДАПТИВ — МОБИЛЬНЫЕ
+   (включая самые узкие современные)
+============================================= */
+@media (max-width: 768px) {
+  .archived-applications-page {
+    padding-inline: 12px;
+
+    h2 {
+      font-size: 22px;
+    }
+  }
+
+  .archived-applications-page ul li {
+    padding: 16px;
+
+    .app-table {
+      grid-template-columns: 1fr !important; /* Одна колонка */
+      font-size: 14px;
+
+      .label {
+        margin-top: 6px;
+        margin-bottom: 2px;
+        color: #1e293b;
+      }
+
+      .value {
+        margin-bottom: 10px;
+      }
+    }
+
+    .delete-btn {
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+  }
+}
+
+/* =============================================
+   СУПЕР-УЗКИЕ МОБИЛЬНИКИ (<400px)
+============================================= */
+@media (max-width: 400px) {
+  .archived-applications-page ul li {
+    padding: 14px;
+
+    .app-table {
+      font-size: 13px;
+    }
+
+    .delete-btn {
+      padding: 12px 10px;
+      font-size: 13px;
     }
   }
 }

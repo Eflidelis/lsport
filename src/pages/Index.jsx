@@ -35,9 +35,13 @@ const Index = () => {
       <TheHeader />
       <InfoRow />
 
-      <h1 className="partners-title">Наши спортивные партнёры</h1>
+      {/* ⬇⬇⬇ Мы только обернули заголовок так же как остальные блоки */}
+      <div className="container">
+        <h1 className="partners-title">Наши партнёры</h1>
+      </div>
+      {/* ⬆⬆⬆ Теперь он выравнивается точно по сетке сайта */}
 
-      {/* Бывший блок записи в спортшколу, а теперь - блок партнеров! */}
+      {/* Бывший блок записи в спортшколу, теперь — партнёры */}
       <TheOfferToFindSchool />
 
       <div id="possibilities" className="container possibilities">
@@ -65,10 +69,10 @@ const Index = () => {
       <TheProcess />
 
       <div id="extra-info">
-  <TheExtraInfo />
-</div>
+        <TheExtraInfo />
+      </div>
 
-      {/* ★ кнопки вверх/вниз */}
+      {/* кнопки вверх/вниз */}
       <ScrollButtons />
 
       <TheFooter />

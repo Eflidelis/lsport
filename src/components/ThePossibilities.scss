@@ -1,3 +1,16 @@
+.possibilities.container {
+  width: min(1400px, 92%) !important;
+  margin-inline: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.possibilities {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+
 .possibilities {
   margin-top:20px;
 
@@ -14,19 +27,20 @@
     border-radius:14px;
 
     > ul{
-      width: 100%;                       /* растягиваем меню */
-      padding: 0 !important;             /* убираем внутренние поля */
-      justify-content: center !important;/* центрируем */
-      gap:18px;                          /* комфортный дефолтный отступ */
-      height:46px;
+      width: 100%;
+      padding: 0 !important;
+      justify-content: center !important;
+      gap: 20px;
+      height:50px;
       display:flex;
       align-items:center;
     }
 
     > ul li a{
-      font-size:15px;
-      font-weight:500;
+      font-size:17px;  /* 🔥 Крупнее чем было */
+      font-weight:600;
       padding:6px 2px;
+      white-space:nowrap;
 
       &::after{
         bottom:-4px;
@@ -51,7 +65,7 @@
 
     /* скрываем стандартный список */
     .glass-nav > ul{
-      display:none;
+      display:none !important;
     }
 
     /* текущий активный пункт слева */
@@ -72,7 +86,6 @@
       color:#d22323;
     }
 
-    /* бургер */
     .poss-burger{
       padding:6px 10px;
       border-radius:8px;
@@ -82,7 +95,6 @@
       cursor:pointer;
     }
 
-    /* выпадающее меню */
     .poss-dropdown{
       position:absolute;
       top:58px;
@@ -114,7 +126,6 @@
       }
     }
 
-    /* открытие меню */
     .poss-dropdown.open{
       display:block;
     }
@@ -123,32 +134,96 @@
 
 
 
-/* ───────── АДАПТИВНОЕ ЦЕНТРИРОВАНИЕ меню ───────── */
+/* ───────── АДАПТИВНОЕ ЦЕНТРИРОВАНИЕ — ВЕРНУЛА КАК У ТЕБЯ ───────── */
 
-/* десктоп — красиво, широко */
 .possibilities .glass-nav > ul {
   width:100%;
   justify-content:center !important;
-  gap:18px;             /* основной комфортный */
+  gap:20px; /* обновлено под новую ширину */
 }
 
 /* экран слегка меньше */
 @media(max-width:1400px){
-  .possibilities .glass-nav > ul { gap:16px; }
+  .possibilities .glass-nav > ul { gap:18px; }
 }
 
-/* ноутбуки 1280 */
+/* ноутбуки */
 @media(max-width:1280px){
-  .possibilities .glass-nav > ul { gap:14px; }
+  .possibilities .glass-nav > ul { gap:16px; }
+  .possibilities .glass-nav > ul li a { font-size:15.5px; } /* 🔥 не даст переносу */
 }
 
-/* ближе к 1100 — чтобы влезало всегда */
+/* 1100 */
 @media(max-width:1100px){
-  .possibilities .glass-nav > ul { gap:12px; }
-  .possibilities .glass-nav > ul li a { font-size:14px; } /* немного сжатый типографический вариант */
+  .possibilities .glass-nav > ul { gap:14px; }
+  .possibilities .glass-nav > ul li a { font-size:14.5px; }
 }
 
-/* 1024 и ниже всё ещё десктоп, но компактнее */
+/* 1024, всё ещё десктоп */
 @media(max-width:1024px){
-  .possibilities .glass-nav > ul { gap:10px; }
+  .possibilities .glass-nav > ul {
+    gap:10px;
+  }
+  .possibilities .glass-nav > ul li a { font-size:14px; }
+}
+
+/* ============================================================
+   📱 SUPER-ADAPTIVE — маленькие смартфоны (iPhone SE, 360–420px)
+   Исправляет выпадение текста из меню
+============================================================ */
+@media (max-width: 420px) {
+
+  /* увеличиваем рабочую ширину блока */
+  .possibilities .glass-nav.mobile {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  /* выбранный пункт получает max-width и перенос */
+  .possibilities .poss-current {
+    max-width: 68vw;
+    white-space: normal !important;   /* разрешаем перенос */
+    line-height: 1.2;
+    font-size: 15px;
+  }
+
+  /* раскрывающееся меню — шире и не обрезает текст */
+  .possibilities .poss-dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .possibilities .poss-dropdown li a {
+    font-size: 15px;
+    white-space: normal !important;
+    line-height: 1.25;
+  }
+}
+
+/* ============================================================
+   📱 EXTRA-SMALL (≤360px) — iPhone SE 1–2, старые Android
+============================================================ */
+@media (max-width: 360px) {
+
+  .possibilities .glass-nav.mobile {
+    padding: 8px 10px;
+    height: auto;        /* позволяет блоку подстроиться */
+  }
+
+  .possibilities .poss-current {
+    max-width: 72vw;
+    font-size: 14.5px;
+    line-height: 1.25;
+  }
+
+  .possibilities .poss-burger {
+    transform: scale(0.9);
+    padding: 4px 6px;
+  }
+
+  .possibilities .poss-dropdown {
+    top: 48px;
+  }
 }

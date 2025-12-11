@@ -3,6 +3,7 @@ import AppInput from './AppInput';
 import AppChecker from './AppChecker';
 import './TheApplication.scss';
 import heartsGif from '../assets/images/Olympics Hearts.gif';
+import appImage from '../assets/images/app1.png';
 
 const onlyDigits = (s) => String(s || '').replace(/\D/g, '');
 
@@ -215,6 +216,10 @@ const TheApplication = ({ submitApplication }) => {
               Наши специалисты свяжутся с вами, ответят на все вопросы и
               продемонстрируют работу платформы LSport
             </p>
+            <div className="application-image-wrapper">
+              <img src={appImage} alt="LSport приложение" className="application-image" />
+            </div>
+
           </div>
           <div className="right">
             <form className="form" onSubmit={submit} noValidate>
@@ -300,7 +305,7 @@ const TheApplication = ({ submitApplication }) => {
                 <span>
                   Я согласен с{' '}
                   <a
-                    href="https://google.com"
+                    href="https://lsport.net/Home/Policy"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

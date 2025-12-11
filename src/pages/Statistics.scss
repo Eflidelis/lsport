@@ -1,43 +1,71 @@
-
+/* =============================
+   Контейнер страницы (как меню)
+   ============================= */
 .statistics-page {
-  //padding: 20px;
   font-family: 'Manrope', sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: min(1400px, 92%);
+  margin-inline: auto;
+  padding-inline: 0;
 }
 
-.statistics-title {
+
+/* =============================
+   Главный заголовок дашборда
+   ============================= */
+.dashboard-title {
   font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 24px;
+  text-align: center;
   color: #222;
 }
 
-/* Блок с дашбордом */
+/* Планшеты (НЕ горизонтальный телефон!) */
+@media (max-width: 1024px) {
+  .dashboard-title {
+    font-size: 30px;
+  }
+}
+
+/* Малые планшеты / большие телефоны */
+@media (max-width: 768px) {
+  .dashboard-title {
+    font-size: 24px;
+    text-align: left;
+  }
+}
+
+/* Маленькие смартфоны */
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 20px;
+  }
+}
+
+
+/* =============================
+   БЛОК ДАШБОРДА
+   ============================= */
+
+/* Дашборд немного уже страницы (твоя логика) */
 .statistics-dashboard-section {
   margin-top: 40px;
   margin-bottom: 40px;
-}
 
-.dashboard-title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #183d81;
+  max-width: 935px; /* ← тот самый идеальный красивый формат */
+  margin-inline: auto;
 }
 
 .dashboard-wrapper {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 10px;
+  overflow: hidden;
+  position: relative;
 }
 
-
 .dashboard-inner {
-  width: 1400px;          
-  max-width: none;
+  width: 1400px;
+  transform-origin: top left;
 }
 
 .dashboard-iframe {
@@ -49,36 +77,47 @@
   height: 1500px;
 }
 
-/* Планшеты */
-@media (max-width: 900px) {
-  .statistics-title {
-    font-size: 28px;
-  }
 
-  .dashboard-iframe {
-    height: 1700px;
+/* =============================
+   Масштабирование дашборда
+   ============================= */
+
+/* Десктопы < 1400px */
+@media (max-width: 1400px) {
+  .dashboard-inner {
+    transform: scale(0.90);
+    height: calc(1500px * 0.90);
+  }
+}
+
+/* Планшеты (>768px, но не телефоны!) */
+@media (max-width: 1024px) {
+  .dashboard-inner {
+    transform: scale(0.75);
+    height: calc(1500px * 0.75);
+  }
+}
+
+/* Малые планшеты / большие смартфоны */
+@media (max-width: 768px) {
+  .dashboard-inner {
+    transform: scale(0.60);
+    height: calc(1500px * 0.60);
   }
 }
 
 /* Мобильные */
 @media (max-width: 600px) {
-  .statistics-page {
-    padding: 16px;
-  }
-
-  .statistics-title {
-    font-size: 24px;
-  }
-
-  .dashboard-title {
-    font-size: 24px;
-  }
-
-  .dashboard-iframe {
-    height: 1900px;
+  .dashboard-inner {
+    transform: scale(0.50);
+    height: calc(1500px * 0.50);
   }
 }
 
+
+/* =============================
+   Подзаголовок под картой
+   ============================= */
 .stats-subtitle {
   font-size: 28px;
   font-weight: 700;
@@ -88,6 +127,32 @@
   line-height: 1.35;
 }
 
+@media (max-width: 600px) {
+  .stats-subtitle {
+    font-size: 18px;
+    text-align: left;
+    margin-top: 16px;
+  }
+}
+
+
+/* =============================
+   Прогрессбары — скрыть на мобильниках
+   ============================= */
+.columns {
+  margin-top: 40px;
+}
+
+@media (max-width: 1200px) {
+  .columns {
+    display: none !important;
+  }
+}
+
+
+/* =============================
+   Toast-плашка
+   ============================= */
 .toast-popup {
   position: fixed;
   bottom: 30px;
@@ -98,8 +163,8 @@
   border-radius: 10px;
   font-size: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
-  animation: slide-in .4s ease, fade-out 3.5s forwards ease 2.8s;
   z-index: 2000;
+  animation: slide-in .4s ease, fade-out 3.5s forwards ease 2.8s;
 }
 
 @keyframes slide-in {

@@ -1,4 +1,3 @@
-
 .rs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -190,5 +189,72 @@
 
   .rs-cta:hover .circle .icon.arrow {
     transform: translate(1rem, -50%);
+  }
+}
+
+
+/* =====================================================
+   📱 ДОБАВЛЕНА МЯГКАЯ АДАПТАЦИЯ ДЛЯ ПЛАНШЕТОВ + МОБИЛЬНЫХ
+   (ТВОЙ КОД НЕ ТРОНУТ — ТОЛЬКО ДОПОЛНЕН)
+===================================================== */
+
+@media (max-width:1024px) {
+  .rs .rs-left .rs-desc { font-size:17px; }
+  .rs .rs-map { max-width:500px; }
+}
+
+@media (max-width:900px) {
+  .rs .rs-left .rs-desc { font-size:16px; }
+  .rs .rs-map { max-width:440px; }
+}
+
+@media (max-width:640px) {
+  .rs .rs-left .rs-title { font-size:28px; }
+  .rs .rs-left .rs-desc  { font-size:15px; line-height:1.42; }
+  .rs .rs-map { max-width:340px; width:92%; }
+}
+
+@media (max-width:420px) {
+  .rs .rs-left .rs-title { font-size:24px; }
+  .rs .rs-left .rs-desc  { font-size:14px; }
+  .rs .rs-map { max-width:300px; }
+}
+
+/* =====================================================
+   📱 ДОПОЛНИТЕЛЬНАЯ АДАПТАЦИЯ ДЛЯ МАЛЕНЬКИХ ЭКРАНОВ ≤360px
+   (iPhone SE, старые Android)
+===================================================== */
+
+@media (max-width: 360px) {
+
+  .rs {
+    gap: 16px;               /* компактнее расстояние между блоками */
+    margin-top: 24px;
+  }
+
+  .rs-left .rs-title {
+    font-size: 22px;        /* было 24 — чуть меньше, но читаемо */
+    line-height: 1.22;
+  }
+
+  .rs-left .rs-desc {
+    font-size: 13.5px;
+    line-height: 1.38;       /* комфортное чтение на узком экране */
+    max-width: 90%;
+    margin-bottom: 16px;
+  }
+
+  .rs-map {
+    max-width: 260px;        /* не обрезается, не давит текст */
+    width: 88%;
+    margin: 0 auto;
+  }
+
+  .rs-cta {
+    height: 2.8rem;          /* компактная кнопка */
+  }
+
+  .rs-cta .label {
+    font-size: 14px;
   }
 }

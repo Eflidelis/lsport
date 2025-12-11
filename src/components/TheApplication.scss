@@ -20,29 +20,41 @@
     gap: 40px;
 
     .left {
-      max-width: 255px;
+  width: 100%;
+  max-width: none;          /* ← больше не сжимаем */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;                /* красивый вертикальный интервал */
 
-      .title {
-        font-size: 36px;
-        font-weight: 700;
-        margin: 0 0 20px 0;
-        color: map-get($colors, "dark-blue");
-      }
+  .title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    color: map-get($colors, "dark-blue");
+    max-width: 90%;
+    word-break: break-word;
+  }
 
-      .description {
-        font-size: 16px;
-        color: map-get($colors, "gray");
-      }
-    }
+  .description {
+    font-size: 18px;
+    color: map-get($colors, "gray");
+    max-width: 90%;
+    word-break: break-word;
+  }
+}
+
 
     .right {
       .form {
-        max-width: 400px;
+        /* 🔥 фикс — форма больше НЕ узкая и тянется на ширину колонки */
+        width: 100%;
+        max-width: 100%;
+
         display: flex;
         flex-direction: column;
         gap: 20px;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 24px;
         background-color: white;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
@@ -87,7 +99,7 @@
     width: 100%;
     margin: 0 16px;
     padding: 32px 40px;
-    border-radius: 16px;
+    border-radius: 24px;
     background-color: #ffffff;
     box-shadow: 0 8px 24px rgba(0,0,0,.08);
     text-align: center;
@@ -115,6 +127,33 @@
   }
 }
 
+/* ===== 📌 изображение в левом блоке Application ===== */
+
+.application .left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ⭐ Контейнер под изображение */
+.application-image-wrapper {
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ⭐ Картинка подстраивается под область */
+.application-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
 /* ПК и планшет <1024px — в блок уходит в колонку */
 @media (max-width: 1024px) {
   #application .grid {
@@ -131,9 +170,9 @@
 
 /* Мобильные <768px — увеличиваем ширину формы и текста */
 @media (max-width: 768px) {
-  #application {
-    padding: 20px 0;
-  }
+  //#application {
+    //padding: 5px 0;
+  //}
 
   #application .grid {
     gap: 24px;
@@ -219,5 +258,139 @@
 
   #application .form {
     align-items: flex-start; /* поля строятся строго слева */
+  }
+}
+
+/* ===== 📌 изображение в левом блоке Application ===== */
+
+.application .left .application-image {
+  width: 100%;              /* растягивается на доступное пространство */
+  max-width: 520px;         /* но не больше, чем красиво */
+  margin-top: 32px;
+  border-radius: 14px;      /* можно убрать, если не нужно */
+  display: block;
+}
+
+
+/* ---- адаптация планшетов ---- */
+@media (max-width: 1024px) {
+  .application .left .application-image {
+    max-width: 480px;
+    margin: 24px 0 0;
+  }
+}
+
+/* ---- адаптация мобильных ---- */
+@media (max-width: 768px) {
+  .application .left .application-image {
+    max-width: 100%;
+    margin: 20px 0 0;
+  }
+}
+
+/* ================================
+   📱 АДАПТИВ ТЕКСТОВ В APPLICATION
+================================ */
+
+/* Планшеты <1024 */
+@media (max-width: 1024px) {
+  .application .left .title {
+    font-size: 30px;      /* было 36 */
+  }
+
+  .application .left .description {
+    font-size: 16px;      /* было 18 */
+    max-width: 95%;
+  }
+
+  .application .form .policy {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+}
+
+/* Мобильные <768 */
+@media (max-width: 768px) {
+  .application .left .title {
+    font-size: 26px;
+  }
+
+  .application .left .description {
+    font-size: 15px;
+  }
+
+  .application .form .policy {
+    font-size: 14px;
+  }
+
+  .application .form .policy span {
+    display: block;       /* перенос строки, читается лучше */
+    margin-left: 4px;
+  }
+}
+
+/* Маленькие экраны <480 */
+@media (max-width: 480px) {
+  .application .left .title {
+    font-size: 22px;
+  }
+
+  .application .left .description {
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .application .form .policy {
+    font-size: 13px;
+  }
+}
+/* ============================================================
+   📌 ДОРАБОТКИ АДАПТИВА Application
+============================================================ */
+
+/* 1) Левая колонка не должна переполнять блок */
+@media (max-width: 768px) {
+  .application .left {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* 2) Очень маленькие экраны — форма с мягкими внутренними отступами */
+@media (max-width: 360px) {
+  #application .form {
+    padding: 14px !important;
+  }
+}
+
+/* ДЕСКТОП — фиксированная высота, чтобы картинка не увеличивала блок */
+.application-image-wrapper {
+  width: 100%;
+  max-width: 500px;
+  height: 300px;        /* ← возвращаем как было */
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;     /* ← предотвращает выход картинки */
+}
+
+/* Картинка подстраивается под высоту wrapper */
+.application-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* МОБИЛЬНЫЕ — высота больше НЕ фиксированная */
+@media (max-width: 768px) {
+  .application-image-wrapper {
+    height: auto !important;   /* ← картинка свободно растёт */
+    min-height: 180px;         /* чтобы wrapper не схлопывался */
+  }
+
+  .application-image {
+    height: auto !important;   /* ← подстраивание под ширину */
+    max-height: 260px;         /* мягкое ограничение */
   }
 }

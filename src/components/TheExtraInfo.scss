@@ -44,17 +44,62 @@
     }
   }
 
+  /* ⭐ QR остаются почти как в исходнике */
   .qr-image {
     width: 200px;
     height: 200px;
     image-rendering: pixelated;
   }
 
-  /* на мобильных один под другим */
+  /* ============================== АДАПТИВ ============================== */
+
+  /* Планшеты <992 */
+  @media (max-width: 992px) {
+    .extra-title { font-size: 30px; }
+    .extra-subtitle { font-size: 18px; }
+
+    .qr-card p {
+      font-size: 16px;
+    }
+  }
+
+  /* Мобильные <768 */
   @media (max-width: 768px) {
+    margin-top: 100px;
+    margin-bottom: 100px;
+
+    .extra-title { font-size: 28px; }
+    .extra-subtitle { font-size: 17px; }
+
     .extra-qr-row {
       flex-direction: column;
-      gap: 50px;
+      gap: 44px; /* чуть меньше, чем 50 – компактнее */
+    }
+
+    .qr-card p {
+      font-size: 15.5px;
+    }
+  }
+
+  /* Маленькие телефоны <480 */
+  @media (max-width: 480px) {
+    .extra-title { font-size: 26px; }
+    .extra-subtitle { font-size: 16px; }
+
+    .qr-card p {
+      font-size: 15px;
+    }
+  }
+
+  /* Самые маленькие экраны <360 — минимальное уменьшение QR */
+  @media (max-width: 360px) {
+    .qr-image {
+      width: 180px;
+      height: 180px;
+    }
+
+    .qr-card p {
+      font-size: 14px;
     }
   }
 }
