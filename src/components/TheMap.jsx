@@ -135,7 +135,7 @@ const TheMap = () => {
     });
 
 
-      // ★ управление картой
+      // управление картой
       if (window.innerWidth < 992) {
         newMap.behaviors.disable(['scrollZoom', 'dblClickZoom']);
         newMap.behaviors.enable(['drag']);

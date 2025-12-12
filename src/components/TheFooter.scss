@@ -4,8 +4,7 @@
   padding: 14px 0;
 }
 
-/* Внутри футера уже есть .container из JSX,
-   поэтому здесь НИЧЕГО не переопределяем по ширине. */
+
 .footer__inner {
   display: flex;
   align-items: center;
@@ -17,7 +16,7 @@
   padding: 10px 16px;
 }
 
-/* ===== мобильные ===== */
+/* мобильные */
 @media (max-width: 768px) {
   .footer {
     padding: 10px 0;
@@ -27,14 +26,14 @@
     justify-content: center;
   }
 
-  /* не даём кнопке вылезать за края контейнера */
+  /* чтоб кнопка не вылезала за края контейнера */
   .footer .arrow-btn {
     max-width: 100%;
   }
 
   .footer .arrow-btn .label {
-    font-size: 14px;        /* чуть меньше, но читаемо */
-    white-space: normal;    /* разрешаем перенос */
+    font-size: 14px;        
+    white-space: normal;    /* разрешен перенос */
     line-height: 1.4;
     text-align: left;
   }

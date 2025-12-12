@@ -1,6 +1,4 @@
-/* =============================
-   Контейнер страницы (как меню)
-   ============================= */
+
 .statistics-page {
   font-family: 'Manrope', sans-serif;
   width: min(1400px, 92%);
@@ -9,9 +7,6 @@
 }
 
 
-/* =============================
-   Главный заголовок дашборда
-   ============================= */
 .dashboard-title {
   font-size: 36px;
   font-weight: 700;
@@ -21,14 +16,14 @@
   color: #222;
 }
 
-/* Планшеты (НЕ горизонтальный телефон!) */
+/* Планшеты (НЕ горизонтальный телефон) */
 @media (max-width: 1024px) {
   .dashboard-title {
     font-size: 30px;
   }
 }
 
-/* Малые планшеты / большие телефоны */
+/* маленькие планшеты / большие телефоны */
 @media (max-width: 768px) {
   .dashboard-title {
     font-size: 24px;
@@ -44,27 +39,42 @@
 }
 
 
-/* =============================
-   БЛОК ДАШБОРДА
-   ============================= */
 
-/* Дашборд немного уже страницы (твоя логика) */
+/* Дашборд немного уже страницы */
 .statistics-dashboard-section {
   margin-top: 40px;
   margin-bottom: 40px;
 
-  max-width: 935px; /* ← тот самый идеальный красивый формат */
+  max-width: 935px; 
   margin-inline: auto;
 }
 
 .dashboard-wrapper {
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto;      /* позволяем горизонтальный скролл */
+  overflow-y: hidden;
   position: relative;
+
+  -webkit-overflow-scrolling: touch; /* плавная прокрутка на iOS */
+  touch-action: pan-x;                /* разрешаем свайп по горизонтали */
 }
+.dashboard-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.dashboard-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.25);
+  border-radius: 4px;
+}
+
+.dashboard-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 
 .dashboard-inner {
   width: 1400px;
+
   transform-origin: top left;
 }
 
@@ -78,9 +88,7 @@
 }
 
 
-/* =============================
-   Масштабирование дашборда
-   ============================= */
+/* масштабирование дашборда */
 
 /* Десктопы < 1400px */
 @media (max-width: 1400px) {
@@ -90,7 +98,7 @@
   }
 }
 
-/* Планшеты (>768px, но не телефоны!) */
+/* Планшеты (>768px, но не телефоны) */
 @media (max-width: 1024px) {
   .dashboard-inner {
     transform: scale(0.75);
@@ -98,7 +106,7 @@
   }
 }
 
-/* Малые планшеты / большие смартфоны */
+/* Мал.планшеты / большие смартфоны */
 @media (max-width: 768px) {
   .dashboard-inner {
     transform: scale(0.60);
@@ -115,9 +123,6 @@
 }
 
 
-/* =============================
-   Подзаголовок под картой
-   ============================= */
 .stats-subtitle {
   font-size: 28px;
   font-weight: 700;
@@ -136,9 +141,7 @@
 }
 
 
-/* =============================
-   Прогрессбары — скрыть на мобильниках
-   ============================= */
+/* Психанула, и прогрессбары скрываем на планшетах и мобилках */
 .columns {
   margin-top: 40px;
 }
@@ -150,9 +153,6 @@
 }
 
 
-/* =============================
-   Toast-плашка
-   ============================= */
 .toast-popup {
   position: fixed;
   bottom: 30px;

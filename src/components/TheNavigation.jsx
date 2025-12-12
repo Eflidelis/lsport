@@ -14,7 +14,7 @@ const TheNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token"); // ★ знает, авторизован ли сотрудник
+  const token = localStorage.getItem("token"); // авторизован ли сотрудник
 
   const attributes = {
     static: {
@@ -48,10 +48,10 @@ const TheNavigation = () => {
     const el = document.querySelector(selector);
     if (!el) return;
 
-    // ищем твой липкий header и берём его высоту
+    // ищет стики header и берет его высоту
     const nav = document.querySelector(".navigation");
     const headerOffset = nav
-      ? nav.getBoundingClientRect().height + 10 // +10px небольшой запас
+      ? nav.getBoundingClientRect().height + 10 // +10px запас
       : 0;
 
     const rect = el.getBoundingClientRect();
@@ -63,7 +63,7 @@ const TheNavigation = () => {
     });
   };
 
-  // даём DOM чуть отрендериться и скроллим с нужным отступом
+  // скролл с нужным отступом
   setTimeout(doScroll, 50);
 };
 
@@ -78,7 +78,7 @@ const TheNavigation = () => {
   const isOnArchive = location.pathname === "/applications/archive";
   const isOnStats = location.pathname === "/statistics";
 
-  // ★ меню сотрудников только если есть токен и мы на служебном роуте
+  // меню сотрудников только если есть токен и мы на служебном роуте
   const isStaffPage = token && (isOnApps || isOnArchive || isOnStats);
 
   let navItems = [
@@ -134,10 +134,10 @@ const TheNavigation = () => {
   };
 
   // ============================
-  // Главный useLayoutEffect:
+  // главный useLayoutEffect:
   // выставляет активный пункт и линию
   //   - staff-меню по маршруту
-  //   - публичное меню: "/" → Главная, "/statistics" → Статистика
+  //   - публичное меню: "/" к Главная, "/statistics" к Статистика
   // ============================
   useLayoutEffect(() => {
     let index = 0;
@@ -151,7 +151,7 @@ const TheNavigation = () => {
       else index = 0; // главная и любые другие публичные
     }
 
-    // ★ синхронизируем state с линией
+    // синхронизирует state с линией
     setActiveIdx(index);
 
     const run = () => {
@@ -165,7 +165,7 @@ const TheNavigation = () => {
     // подстраховка через timeout
     const t = setTimeout(run, 250);
 
-    // и ещё раз после загрузки шрифтов
+    // и еще раз после загрузки шрифтов
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(run).catch(() => {});
     }
@@ -180,11 +180,8 @@ const TheNavigation = () => {
     updateUnderline,
   ]);
 
-    // ============================
-  // 🔥 ГЛОБАЛЬНЫЙ ФИКС ДЛЯ ОБНОВЛЕНИЯ СТРАНИЦЫ
-  // После полной загрузки layout мы ещё раз точно ставим линию.
-  // Работает на всех страницах: Главная, Статистика, служебные.
-  // ============================
+    
+  
   useEffect(() => {
     const handler = () => {
       requestAnimationFrame(() => {
@@ -198,10 +195,9 @@ const TheNavigation = () => {
   }, [activeIdx, updateUnderline]);
 
 
-  // ============================
   // Скролл-подсветка ТОЛЬКО для главной страницы
-  // (на /statistics не работаем вообще)
-  // ============================
+  // (на /statistics не работает вообще)
+  
   useEffect(() => {
     if (isStaffPage) return;
     if (location.pathname !== "/") return;
@@ -245,9 +241,7 @@ const TheNavigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isStaffPage, activeIdx, updateUnderline, location.pathname]);
 
-  // ============================
-  // STAFF-меню: активный пункт строго по маршруту
-  // ============================
+  
   useEffect(() => {
     if (!isStaffPage) return;
 
@@ -277,7 +271,7 @@ const TheNavigation = () => {
           <img className="logo" src={logo} alt="logo" />
         </a>
 
-        {/*========= DESKTOP MENU =========*/}
+        {/*десктопное меню */}
         <div className="header-nav desktop-only">
           <ul
             ref={navRef}
@@ -310,7 +304,7 @@ const TheNavigation = () => {
           </ul>
         </div>
 
-        {/*========= DESKTOP AUTH =========*/}
+        {/* десктопная авторизация */}
         <div className="nav-actions desktop-only">
           <AppBtn
             text="Регистрация"
@@ -329,7 +323,7 @@ const TheNavigation = () => {
           />
         </div>
 
-        {/*========= BURGER =========*/}
+        {/* бургер */}
         <div className="burger-wrap mobile-only" onClick={toggleMobile}>
           <button className={`burger ${mobileOpen ? "is-open" : ""}`}>
             <span />
@@ -340,7 +334,7 @@ const TheNavigation = () => {
         </div>
       </div>
 
-      {/*========= MOBILE MENU =========*/}
+      {/* моб меню */}
       <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
         <div className="mobile-glass">
           <ul>

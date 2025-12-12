@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // функция для проверки, не истёк ли токен
+  // функция для проверки, не истек ли токен
   const isTokenExpired = (token) => {
     if (!token) return true;
     try {
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       return decoded.exp < currentTime;
     } catch (error) {
       console.error('Error decoding token:', error);
-      return true; // если токен невалидный, считает истёкшим
+      return true; // если токен невалидный, считает истекшим
     }
   };
 

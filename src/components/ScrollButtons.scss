@@ -8,13 +8,13 @@
   z-index: 2000;
 }
 
-/* КРУГИ — теперь будут идеальными */
+
 .scroll-buttons .btn {
   width: 42px;
   height: 42px;
-  padding: 0;                             /* ← убирает лишний воздух */
+  padding: 0;                             
   border-radius: 50%;
-  display: flex;                          /* центрируем SVG */
+  display: flex;                          
   align-items: center;
   justify-content: center;
 
@@ -32,7 +32,7 @@
   background: rgba(255,255,255,.95);
 }
 
-/* 🔻 скрываем кнопки на мобилках */
+/* скрыты на мобилках */
 @media (max-width: 768px) {
   .scroll-buttons { display: none !important; }
 }

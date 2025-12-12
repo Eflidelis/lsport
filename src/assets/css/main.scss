@@ -1,15 +1,15 @@
-/* Подключаем шрифт Roboto со всеми нужными толщинами */
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 /* Контейнер сайта */
-/* Глобальный контейнер сайта — АДАПТИВНЫЙ */
+
 .container {
-  width: min(1400px, 92%);   /* сайт будет максимум 1400px но не меньше 92% ширины */
+  width: min(1400px, 92%);   /* максимум 1400px но не меньше 92% ширины */
   margin-inline: auto;
   padding-inline: 16px;
 }
 
-/* === Универсальная сетка для всех блоков === */
+/* сетка для всех блоков */
 .section {
   width: min(1400px, 92%);
   margin-inline: auto;
@@ -34,7 +34,7 @@
 /* Глобальные стили */
 * {
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif; /* ← заменено с Manrope на Roboto */
+  font-family: 'Roboto', sans-serif; 
 }
 
 /* Стили для текста */

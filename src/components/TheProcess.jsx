@@ -55,12 +55,12 @@ const TheProcess = () => {
 
   return (
     <div className="process" ref={processRef}>
-      {/* Вертикальная линия справа */}
+      {/* вертикальная линия справа */}
       <div className="timeline-line" style={{ height: `${progress * 100}%` }}></div>
 
       {steps.map((s, i) => (
         <div className={`process-item ${s.reverse ? 'reverse' : ''}`} key={i}>
-          {/* Маркер шага: по центру строки, справа от линии */}
+          {/* маркер шага: по центру строки, справа от линии */}
           <div className="marker">
             <div className="dot"></div>
             <span>Шаг {i + 1}</span>

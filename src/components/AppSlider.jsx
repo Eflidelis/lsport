@@ -43,7 +43,7 @@ export default function AppSlider({ items = [], onSlideChange, children }) {
   return (
     <div className="poss-slider">
 
-      {/* ===== DESKTOP MENU ===== */}
+      {/* дексктоп меню */}
       <nav className="glass-nav desktop">
         <ul ref={navRef}>
           {items.map((label,i)=>(
@@ -61,7 +61,7 @@ export default function AppSlider({ items = [], onSlideChange, children }) {
 
 
 
-      {/* ===== MOBILE + TABLET MENU ===== */}
+      {/* мобильные меню */}
       <nav className="glass-nav mobile">
 
         {/* бургер слева */}

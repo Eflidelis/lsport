@@ -13,7 +13,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       console.log('User already authenticated, redirecting to /applications'); // лог
-      navigate('/applications'); // редирект на защищённую страницу, если уже авторизован
+      navigate('/applications'); // редирект на защищенную страницу, если уже авторизован
     }
   }, [isAuthenticated, navigate]);
 

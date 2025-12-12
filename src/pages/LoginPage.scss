@@ -79,9 +79,7 @@ $font-family: 'Arial, sans-serif';
     }
   }
 
-  /* ============================
-      АДАПТАЦИЯ — мобильные
-     ============================ */
+  
   @media (max-width: 600px) {
     h2 {
       font-size: 20px;
@@ -104,10 +102,7 @@ $font-family: 'Arial, sans-serif';
     }
   }
 
-  /* ============================
-      Очень маленькие экраны
-      (iPhone SE, старые Android)
-     ============================ */
+  
   @media (max-width: 380px) {
     form {
       padding: 16px;

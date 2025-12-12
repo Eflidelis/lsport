@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./TheOfferToFindSchool.scss";
-import useMediaQuery from "../hooks/useMediaQuery"; // Хук теперь существует 🎉
+import useMediaQuery from "../hooks/useMediaQuery"; // Хук
 
 const EMBLEM_IMAGES = [
   require("../assets/images/emblems/emblem1.png"),
@@ -94,7 +94,7 @@ const TheOfferToFindSchool = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return; // ❗ На мобильных НЕ запускаем анимацию
+    if (isMobile) return; // на мобильных НЕ запускаем анимацию
 
     let fadeTimeout;
     const intervalId = setInterval(() => {
@@ -130,7 +130,7 @@ const TheOfferToFindSchool = () => {
     };
   }, [isMobile]);
 
-  // 📱 Мобильная версия — просто сетка 18 эмблем
+  // мобильная версия, просто сетка 18 эмблем
   if (isMobile) {
     return (
       <section className="mobile-grid-emblems">
@@ -141,7 +141,7 @@ const TheOfferToFindSchool = () => {
     );
   }
 
-  // 💻 Десктоп — анимация (как у тебя было)
+  // анимация
   return (
     <section className="edge-card edge-card--collage">
       <div className="edge-card__inner-collage">

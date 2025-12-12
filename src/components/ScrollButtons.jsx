@@ -19,14 +19,14 @@ const ScrollButtons = () => {
 
   return (
     <div className="scroll-buttons">
-      {/* кнопка ВВЕРХ */}
+      {/* кнопка вверх */}
       <button className="btn up" onClick={scrollTop} title="Наверх">
         <svg
           width="18"
           height="18"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#2d66ff"          // ← СИНЯЯ СТРЕЛКА
+          stroke="#2d66ff"          
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -35,14 +35,14 @@ const ScrollButtons = () => {
         </svg>
       </button>
 
-      {/* кнопка ВНИЗ */}
+      {/* кнопка вниз */}
       <button className="btn down" onClick={scrollBottom} title="Вниз">
         <svg
           width="18"
           height="18"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#2d66ff"         // ← ТОЖЕ СИНЯЯ СТРЕЛКА
+          stroke="#2d66ff"         
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
